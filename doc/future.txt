@@ -1,0 +1,8 @@
+第一条：不可约三体来源
+先用 XOR / gating / contextual rule 这类最小模型，研究 synergy 的最小生成条件。
+
+第二条：coarse-graining 顺序
+研究不同 coarse-graining path 是否改变 HOI 的显现方式，甚至改变“higher-order 是否必须存在”的判断。
+
+第三条：classical compositional conflict
+尝试给经典系统找一个比“non-associativity”更广的机制语言，例如 non-reducible interaction composition、order-sensitive effective coupling、context-dependent aggregation 之类。

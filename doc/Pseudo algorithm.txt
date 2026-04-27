@@ -1,0 +1,78 @@
+Input:
+    time_list = [t1, t2, ..., tT]
+    theta_grid, phi_grid   # 20 x 20 Hamiltonian grid
+    fixed random product initial state |psi0>
+    fixed-norm XYZ Hamiltonian family
+    weak external coupling g_D
+
+Output:
+    corr_Jrho_vs_I3minus[t]
+    corr_Jtot_vs_I3minus[t]
+    max_I3minus[t]
+
+Procedure:
+
+1. Prepare fixed initial state
+    rho0 = |psi0><psi0|
+
+2. For each time t in time_list:
+
+    Initialize arrays:
+        I3minus_list = []
+        Jrhoexp_list = []
+        Jtot_list = []
+
+    For each Hamiltonian point (theta, phi) in grid:
+
+        # Step 2.1 Build 4Q Hamiltonian
+        Build internal edge coefficients:
+            J_AB(theta, phi), J_BC(theta, phi), J_AC(theta, phi)
+        Build weak external edge:
+            J_CD(theta, phi; g_D)
+        Construct:
+            H = H_AB + H_BC + H_AC + H_CD
+
+        # Step 2.2 Closed-system unitary evolution
+        U_t = exp(-i * H * t)
+        rho_t = U_t * rho0 * U_t^\dagger
+
+        # Step 2.3 Reduce to target subsystem
+        rho_ABC = Tr_D(rho_t)
+
+        # Step 2.4 Compute target HOI
+        Compute all required subsystem entropies from rho_ABC
+        Compute I3(ABC)
+        I3minus = max(-I3, 0)
+
+        # Step 2.5 Compute mediator associators
+        Build A_AB, A_BC, A_AC from the triangle Hamiltonians
+
+        # Step 2.6 Compute bare algebraic capacity
+        Jtot = combine_norms(A_AB, A_BC, A_AC)
+
+        # Step 2.7 Compute state-activated access
+        m_AB = Tr(rho_ABC * A_AB)
+        m_BC = Tr(rho_ABC * A_BC)
+        m_AC = Tr(rho_ABC * A_AC)
+        Jrhoexp = combine_expectations(m_AB, m_BC, m_AC)
+
+        # Step 2.8 Store results for this Hamiltonian point
+        append I3minus_list <- I3minus
+        append Jrhoexp_list <- Jrhoexp
+        append Jtot_list <- Jtot
+
+    # Step 2.9 Summarize this time slice across all 400 Hamiltonian points
+    corr_Jrho_vs_I3minus[t] = Pearson(Jrhoexp_list, I3minus_list)
+    corr_Jtot_vs_I3minus[t] = Pearson(Jtot_list, I3minus_list)
+    max_I3minus[t] = max(I3minus_list)
+
+3. Plot time-resolved curves:
+    corr_Jrho_vs_I3minus[t]
+    corr_Jtot_vs_I3minus[t]
+    max_I3minus[t]
+
+4. Interpret crossover:
+    If early-time corr(Jrhoexp, I3minus) > corr(Jtot, I3minus):
+        early regime = state-activated / access-sensitive
+    If later-time corr(Jtot, I3minus) becomes larger and more stable:
+        late regime = capacity-dominant / structure-revealing
