@@ -1,0 +1,1295 @@
+%% ****** Start of file apstemplate.tex ****** %
+%%
+%%
+%%   This file is part of the APS files in the REVTeX 4.2 distribution.%%
+%%   Copyright (c) 2024 The American Physical Society.
+%%
+%%   See the REVTeX 4 README file for restrictions and more information.
+%%
+%
+% This is a template for producing manuscripts for use with REVTEX 4.2
+% Copy this file to another name and then work on that file.
+% That way, you always have this original template file to use.
+%
+% Group addresses by affiliation; use superscriptaddress for long
+% author lists, or if there are many overlapping affiliations.
+%  N.B. The groupedaddress option will reorder the author list based
+%  on the order in which affiliations appear. Please be sure to check the author 
+%  order. You can also use the unsortedaddress(?) option instead to prevent that
+%  behavior.
+% For Phys. Rev. appearance, change preprint to twocolumn.
+% Choose physrev, prl, or rmp for journal
+%  N.B. physrev is appropriate for all APS journals except prl and rmp
+%  Add 'draft' option to mark overfull boxes with black boxes
+%  Add 'showkeys' option to make keywords appear
+\documentclass[aps,physrev,preprint,groupedaddress]{revtex4-2}
+%\documentclass[aps,physrev,preprint,superscriptaddress]{revtex4-2}
+%\documentclass[aps,prl,preprint,superscriptaddress]{revtex4-2}
+%\documentclass[aps,prl,reprint,groupedaddress]{revtex4-2}
+%\documentclass[aps,rmp,preprint,superscriptaddress]{revtex4-2}
+%\documentclass[aps,rmp,reprint,groupedaddress]{revtex4-2}
+
+% You should use BibTeX and apsrev.bst for references
+% Choosing a journal automatically selects the correct APS
+% BibTeX style file (bst file), so only uncomment the line
+% below if necessary.
+%\bibliographystyle{apsrev4-2}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{verbatim}
+\usepackage{amsmath,amssymb}
+\graphicspath{{figures/}}
+\begin{document}
+
+% Use the \preprint command to place your local institutional report
+% number in the upper righthand corner of the title page in preprint mode.
+% Multiple \preprint commands are allowed.
+% Use the 'preprintnumbers' class option to override journal defaults
+% to display numbers if necessary
+%\preprint{}
+
+%Title of paper
+\title{Higher-order quantum correlations from strictly pairwise interactions: a non-associative algebraic mechanism}
+
+% repeat the \author .. \affiliation  etc. as needed
+% \email, \thanks, \homepage, \altaffiliation all apply to the current
+% author. Explanatory text should go in the []'s, actual e-mail
+% address or url should go in the {}'s for \email and \homepage.
+% Please use the appropriate macro foreach each type of information
+
+% \affiliation command applies to all authors since the last
+% \affiliation command. The \affiliation command should follow the
+% other information
+% \affiliation can be followed by \email, \homepage, \thanks as well.
+\author{Xuan-Chen Liu}
+\email{liu.xuanc@nulondon.ac.uk}
+\affiliation{NPLab}
+%\email[]{Your e-mail address}
+%\homepage[]{Your web page}
+%\thanks{}
+%\altaffiliation{}
+
+%Collaboration name if desired (requires use of superscriptaddress
+%option in \documentclass). \noaffiliation is required (may also be
+%used with the \author command).
+%\collaboration can be followed by \email, \homepage, \thanks as well.
+%\collaboration{}
+%\noaffiliation
+
+\date{\today}
+
+\begin{abstract}
+The dynamical generation of irreducible higher-order correlations in quantum many-body systems remains poorly understood at the microscopic level. Here we identify the Jordan associator, which encodes the non-associative algebraic residue of incompatible pairwise edge interactions on a quantum network, as an engine for tripartite synergy generation. We decompose this engine into two complementary layers: a bare algebraic capacity $J_{\mathrm{tot}}$ determined solely by the Hamiltonian, and a state-activated component $J_\rho$ that measures the projection of the evolving quantum state onto the non-associative sector. In a 4-qubit triangle network, these layers produce a dynamical crossover from an early activation-dominated regime to a later capacity-dominant one. An exact associator-null interpolation demonstrates that suppressing the non-associative channel collapses the tripartite synergy indicator to the numerical floor $(\sim\!10^{-13})$ while leaving pairwise correlations intact, establishing non-associativity as a necessary condition for the observed generative route. The recovery reveals a two-layer bottleneck: bare capacity restores first, but synergy generation remains gated by state activation. In a $5$-qubit tetrahedral extension, the crossover disappears as self-averaging across multiple triangular faces causes bare capacity to acquire predictive power from the outset — a finite-size effect confirmed independently by initial-state ensemble averaging on the triangle. Validation on the transverse-field Ising model yields an analytic associator $J_{\mathrm{tot}}^2 = h^4 \sum J_{ij}^2$, with synergy peaking near the quantum phase transition and frustrated configurations producing systematically less synergy than non-frustrated ones at fixed capacity. Under amplitude damping, dephasing, and depolarizing noise, the synergy-dominant signal retains a growing share of total correlations relative to pairwise baselines. These results establish a direct link between non-associative interaction algebra and the emergent information-theoretic organization of quantum networks, and point toward a Jordan-algebraic extension of spectral network theory.
+\end{abstract}
+
+% insert suggested keywords - APS authors don't need to do this
+%\keywords{}
+
+%\maketitle must follow title, authors, abstract, and keywords
+\maketitle
+
+% body of paper here - Use proper section commands
+% References should be done using the \cite, \ref, and \label commands
+\section{Introduction}
+
+Higher-order interactions are increasingly recognized as an essential organizing principle of complex systems, and have given rise to a rich theory built on hypergraphs and simplicial complexes~\cite{battiston2021PhysicsHigherorder}. Within this framework, information-theoretic diagnostics such as the O-information~\cite{rosas2019Oinfo} and its gradient-based extensions~\cite{scagliarini2023GradientsOinformation} characterize synergy- and redundancy-dominated structure, while dynamical models with explicit multi-body couplings have revealed phenomena---including explosive synchronization~\cite{millan2020ExplosiveHigherOrder} and discontinuous contagion transitions~\cite{iacopini2019SimplicialModels}---that pairwise descriptions cannot capture. A complementary line of work has identified mechanisms by which higher-order signatures emerge from strictly pairwise interactions: nonlinear phase reduction with frequency resonance produces effective three-body terms in coupled oscillators~\cite{nijholt2022EmergentHypernetworks}, antibalanced correlational structures generate synergy-dominance in Gaussian systems~\cite{caprioglio2026SynergisticMotifs}, and explicit group-level mechanisms produce distinctive synergistic signatures in classical higher-order networks~\cite{robiglio2025SynergisticSignatures}. Together, these results establish that higher-order organization in classical complex systems can be traced either to explicit higher-order coupling terms or to statistical, structural, and dynamical properties of pairwise interactions.
+
+A natural further question is whether the \emph{algebraic} structure of the pairwise interactions themselves can act as a generator of higher-order correlations. This question concerns a level of structure distinct from the multivariate functional content of node-level dynamics: graph-based formulations admit arbitrarily complex node functions and, through appropriate reparametrization, can express the dynamics of any hypergraph model~\cite{peixoto2026GraphsAre}. Such reparametrizations, however, operate within the commutative algebra of classical observables and do not generate non-trivial associator structure among pairwise interaction terms. The algebraic question therefore probes a level---the non-commutative algebra of interaction operators---that is absent from classical networks with scalar observables. Quantum mechanics provides this level natively: while the Jordan product $X \circ Y = (XY+YX)/2$ of Hermitian operators is commutative, it is generally non-associative, and its associator captures a genuine three-operator incompatibility whose existence depends on the operator-algebraic structure rather than on the choice of node-level dynamical functions. Quantum tripartite mutual information and related observables have been used to probe scrambling~\cite{hosur2016ChaosQuantum, sur2022InformationScrambling, maldacena2016BoundChaos}, post-quench dynamics~\cite{caceffo2023NegativeTripartite}, and higher-order interdependencies in entangled states~\cite{javarone2024QuantifyingHighorder}. Yet these studies predominantly characterize the \emph{presence} and \emph{magnitude} of higher-order structure at the level of quantum states, leaving unidentified~\cite{javarone2024QuantifyingHighorder} the specific Hamiltonian-level property that determines whether and how efficiently irreducible tripartite correlations are generated from initially unentangled states.
+
+Here we show that the answer to the algebraic version of this question lies in the non-associative structure of the Hamiltonian's Jordan product. We identify the Jordan associator, which encodes the irreducible three-edge interference residue of pairwise interactions, as a necessary engine for the dynamical generation of synergy-dominant tripartite correlations. The generation is governed by two complementary layers: a state-activated component $J_\rho$ that quantifies how strongly the evolving state projects onto that sector, and a bare algebraic capacity  $J_{\mathrm{tot}}$ that quantifies the available non-associative structure. In a $4$-qubit triangle network, these layers produce a dynamical crossover from an early activation-dominated regime to a later capacity-dominant one. By constructing an exact associator-null manifold, we establish that suppressing the non-associative channel collapses the tripartite signal to the numerical floor while leaving pairwise correlations intact, identifying non-associativity as a necessary condition for the observed generative route. In a $5$-qubit tetrahedral extension, bare capacity becomes informative at earlier times, revealing the crossover as a finite-size effect governed by self-averaging across triangular faces.
+
+\section{Framework}
+
+\subsection{System setup}
+We consider simplex-based quantum networks built from fixed-norm XYZ edge Hamiltonians,
+\begin{equation}
+    H_{ij} = \sum_{\mu=x,y,z} J^{(\mu)}_{ij}\, \sigma_i^\mu \sigma_j^\mu .
+\end{equation}
+The minimal system is a triangle $A$--$B$--$C$ coupled to an auxiliary node $D$ through a single weak edge $H_{CD}$, with total Hamiltonian
+\begin{equation}
+    H^{(4)} = H_{AB} + H_{BC} + H_{AC} + H_{CD}.
+\end{equation}
+The auxiliary node $D$ plays a structurally necessary role: for any pure tripartite state $\rho_{ABC}$, the Schmidt duality $S_A = S_{BC}$, $S_B = S_{AC}$, $S_C = S_{AB}$ forces the von~Neumann counterpart of $I_3$ to vanish identically~\cite{javarone2024QuantifyingHighorder}. Nontrivial tripartite information generation therefore requires $\rho_{ABC}$ to be mixed, which the present construction realizes by tracing out $D$ from a closed four-qubit evolution. The four-qubit triangle is in this sense the minimal closed system in which dynamical generation of synergy-dominant tripartite correlations from product initial states can be observed.
+
+The tetrahedral extension replaces the internal triangle with the complete graph on $A,B,C,D$ (six edges), while coupling an external node $E$ through a single edge $H_{DE}$.
+Starting from a product initial state $\rho_0$, we evolve the full system unitarily and evaluate observables on the reduced internal state,
+\begin{equation}
+    \rho_{ABC}(t) = \mathrm{Tr}_D\!\left[e^{-iH^{(4)}t}\,\rho_0\,e^{iH^{(4)}t}\right],
+\end{equation}
+and analogously $\rho_{ABCD}(t) = \mathrm{Tr}_E[\cdots]$ in the tetrahedral case.
+In both geometries, the internal subsystem evolves under fixed-norm interactions, while the external node provides the source of mixedness required by the minimality argument above and is traced out after evolution.
+Full details of the Hamiltonian parametrization, initial-state construction, and scanning protocol are given in Appendix~\ref{app:numerics}.
+
+While our primary numerical experiments employ the XYZ Hamiltonian family, which provides a continuously tunable non-associative structure, the algebraic framework applies to any Hamiltonian with pairwise interactions. As a concrete example, we verify in Appendix~\ref{app:tfising} that the transverse-field Ising model $\sigma_i^z \sigma_j^z + h(\sigma_i^x + \sigma_j^x)/2$ yields an analytic associator $J_{\mathrm{tot}}^2 = h^4 \sum_{(ij)} J_{ij}^2$, which vanishes in the pure Ising limit $h \to 0$ and is activated by the transverse field. This confirms that the non-associative generation channel is not an artifact of the XYZ parametrization but arises generically when incompatible interaction axes coexist.
+
+
+\subsection{Algebraic motivation}
+For a tripartite reduced state $\rho_{ABC}$, we define the tripartite synergy indicator
+\begin{equation}\label{eq:I3minus}
+    I_3^-(A{:}B{:}C) \equiv \max\!\big(0,\;-I_3(A{:}B{:}C)\big),
+\end{equation}
+where
+\begin{equation}
+    I_3(A{:}B{:}C) = S_A + S_B + S_C - S_{AB} - S_{AC} - S_{BC} + S_{ABC}
+\end{equation}
+is the tripartite mutual information and $S_X = -\mathrm{Tr}[\rho_X\log_2\rho_X]$ denotes the von Neumann entropy. For three variables, $I_3$ coincides with the McGill interaction information and, when entropies are evaluated as von Neumann entropies, with the Q-information restricted to three variables~\cite{rosas2019Oinfo, javarone2024QuantifyingHighorder}; $I_3^- > 0$ corresponds to its synergy-dominant branch, where irreducible synergistic dependencies exceed redundant ones, while $I_3^- = 0$ indicates a redundancy-dominated or balanced regime. The associated decomposition into unique, redundant, and synergistic contributions in the quantum setting remains an open theoretical challenge, addressed further in the Discussion.
+
+To probe the Hamiltonian-level origin of $I_3^-$, we introduce the mediator Jordan associator for each edge pair sharing a common face:
+\begin{equation}\label{eq:assoc}
+    A_{ij} = \frac{1}{4}\big[H_{ij},\,[H_{ik},\,H_{jk}]\big],
+\end{equation}
+which is the nested-commutator representation of the Jordan associator $[H_{ik}, H_{ij}, H_{jk}]_\circ = (H_{ik}\circ H_{ij})\circ H_{jk} - H_{ik}\circ(H_{ij}\circ H_{jk})$ under the Jordan product $A \circ B = \tfrac{1}{2}(AB+BA)$. This identity is verified symbolically in Appendix~\ref{app:algebra}. As a nested commutator, $A_{ij}$ admits two elementary algebraic vanishing modes: it vanishes when the inner commutator $[H_{ik}, H_{jk}]$ is zero because the edge operators on that face commute pairwise (\emph{alignment-driven vanishing}), and it vanishes when one of the participating edge operators has shrinking norm (\emph{magnitude-driven vanishing}). Both modes correspond to the operator algebra failing to span the three-edge configuration non-trivially, and both are tested against $I_3^-$ in Sec.~\ref{sec:causal}.
+
+From $A_{ij}$ we construct two scalar diagnostics.
+The \emph{bare algebraic capacity}
+\begin{equation}
+    J_{\mathrm{tot}} = \sqrt{\textstyle\sum_{(ij)} \|A_{ij}\|_F^2}
+\end{equation}
+depends only on the Hamiltonian and quantifies the total non-associative structure available on a given face.
+The \emph{state-activated diagnostic}
+\begin{equation}
+    J_\rho = \sqrt{\textstyle\sum_{(ij)} \big|\mathrm{Tr}[\rho\,A_{ij}]\big|^2}
+\end{equation}
+additionally depends on the quantum state, measuring how strongly the evolving reduced state projects onto the non-associative sector.
+A Cauchy--Schwarz argument yields the bound $J_\rho / J_{\mathrm{tot}} \leq \sqrt{\mathrm{Tr}[\rho^2]}$, linking the activation efficiency to the purity of the reduced state (Appendix~\ref{sm:algebra}).
+
+The associator-based diagnostics are not chosen ad hoc. In the short-time perturbative expansion of the reduced dynamics, the $\mathcal{O}(t^2)$ contribution to the purity $\mathrm{Tr}[\rho^2]$ contains no three-edge cross-terms; genuine three-edge interference enters at $\mathcal{O}(t^3)$ or higher (Appendix~\ref{sm:algebra}). The Jordan associator captures precisely this irreducible three-edge kernel, providing a natural Hamiltonian-level candidate for the generator of the tripartite synergy indicator.
+
+
+\section{Results}
+
+\subsection{Dynamical crossover in the triangle network}
+
+We begin with the 4-qubit triangle network and ask how the associator diagnostics relate to the emergence of synergy-dominant structure over time.
+For each evolution time $t$, we scan the full $(\theta,\phi)$ Hamiltonian family and compute the Pearson correlation of $I_3^-$ with $J_\rho$, $J_{\mathrm{tot}}$, and the linear entropy $S_L = 1 - \mathrm{Tr}[\rho_{ABC}^2]$ as a mixedness baseline (Fig.~\ref{fig:4q_crossover}).
+
+\begin{figure}[t]
+    \includegraphics[width=\columnwidth]{Fig1_triangle_4q_time_resolved_associator_diagnostics.png}
+    \caption{%
+        \textbf{Time-resolved associator diagnostics in the triangle network (4-qubit).}
+        (a)~Pearson correlation of each diagnostic with $I_3^-$ as a function of evolution time.
+        The state-activated diagnostic $J_\rho$ (blue) peaks at $t_{\mathrm{peak}}\approx 0.26$ and subsequently declines, while the bare capacity $J_{\mathrm{tot}}$ (red) rises monotonically.
+        The dashed grey line shows the linear entropy $S_L$ as a mixedness baseline.
+        (b)~Maximum $I_3^-$ across the $(\theta,\phi)$ scan at each time point.
+    }\label{fig:4q_crossover}
+\end{figure}
+
+A clear dynamical crossover emerges (Fig.~\ref{fig:4q_crossover}a).
+At early times, $J_\rho$ is the strongest correlate of $I_3^-$: the generation of synergy-dominant structure is initially governed by whether the evolving state activates the non-associative sector.
+At later times, $J_\rho$ declines while $J_{\mathrm{tot}}$ rises monotonically, indicating that the bare algebraic capacity---a state-independent property of the Hamiltonian---becomes the dominant predictor as the system thermalizes.
+The linear entropy $S_L$ is strongly correlated at very early times, when all correlations grow in lockstep with the departure from purity, but its predictive power drops below that of $J_\rho$ in the generative window ($t\approx 0.15$--$0.30$), confirming that mixedness growth is a kinematic threshold rather than a mechanistic driver.
+
+To sharpen this picture, Fig.~\ref{fig:mechanism} presents cross-sectional scatter plots at $t = 0.25$, within the state-activated regime.
+Across the scanned Hamiltonian family, $J_\rho$ organizes the high-$I_3^-$ region most clearly ($r = 0.61$), while $S_L$ shows a characteristic hook shape ($r = 0.37$): low mixedness implies low synergy (necessary condition), but high mixedness does not guarantee high synergy (not sufficient).
+Strikingly, the pairwise negativity vanishes identically across all 400 parameter points ($N_{\mathrm{sum}} \equiv 0$), yet $I_3^-$ reaches values up to $0.013$.
+This demonstrates that synergy-dominant tripartite structure can emerge in the complete absence of detectable bipartite entanglement.
+
+\begin{figure}[t]
+    \includegraphics[width=\columnwidth]{Fig2_mechanism_snapshot_clean.png}
+    \caption{%
+        \textbf{Cross-sectional evidence at $t=0.25$.}
+        (a)~$J_\rho$ vs.\ $I_3^-$: positive correlation ($r=0.61$).
+        (b)~$P_{\mathrm{pair}}$ vs.\ $I_3^-$: negative correlation ($r=-0.53$), with $N_{\mathrm{sum}}\equiv 0$ across all 400 configurations.
+        (c)~$S_L$ vs.\ $I_3^-$: weaker correlation ($r=0.37$) with a hook shape indicating that mixedness is necessary but not sufficient.
+    }\label{fig:mechanism}
+\end{figure}
+
+
+\subsection{Causal test: vanishing of the Jordan associator}
+
+The Jordan associator $\mathcal{A}_{ij} = \tfrac{1}{4}[H_{ij}, [H_{ik},H_{jk}]]$ vanishes identically whenever its inner commutator $[H_{ik},H_{jk}]$ does. Two elementary algebraic conditions force this inner commutator to zero: alignment of all edge operators within a common commuting subalgebra, and shrinking of an edge operator's norm to zero. We use the alignment-driven condition to construct a continuously controllable null family; the magnitude-driven condition is realized within the transverse-field Ising specialization (Appendix~\ref{sm:tfising}).
+
+A natural exact realization of the alignment condition is the pure Ising family $(\sigma^z_i \sigma^z_j)$: all edge operators share the computational diagonal basis, pairwise commute, and the associator vanishes identically. Numerical verification confirms that $I_3^- = 0$ to machine precision under pure Ising evolution despite active pairwise correlations (Appendix~\ref{sm:numerics-evolution-null}). To continuously interpolate between this null and the full XYZ family, we construct an exact associator-null control family. Each fixed-norm XYZ edge Hamiltonian is continuously deformed toward a common-axis configuration in which all three internal edge operators commute pairwise; at this null point the Jordan associators vanish identically while edge norms, and hence pairwise interaction strengths, are preserved. An interpolation parameter $\alpha \in [0,1]$ connects the null manifold ($\alpha = 0$) to the original XYZ family ($\alpha = 1$); full construction details are given in Appendix~\ref{sm:numerics}.
+
+\begin{figure}[t]
+    \includegraphics[width=\columnwidth]{FigX_ablation_3panel.pdf}
+    \caption{%
+        \textbf{Causal test: interpolation from the associator-null manifold.}
+        (a)~Median $I_3^-(\alpha) / I_3^-(1)$ on a logarithmic scale: the signal collapses to the numerical floor ($\sim\!10^{-13}$) at $\alpha = 0$ and recovers monotonically.
+        (b)~Fraction of $(\theta, \phi)$ points at which pairwise correlations are retained ($P_{\mathrm{pair}} > 50\%$) but $I_3^-$ is suppressed ($<\!10\%$ of its $\alpha\!=\!1$ value).
+        (c)~Contrasting recovery of $I_3^-$ (blue) and $P_{\mathrm{pair}}$ (red), both normalized to $\alpha = 1$, at $t = 0.25$.
+    }\label{fig:causal}
+\end{figure}
+
+The results are unambiguous (Fig.~\ref{fig:causal}). At $\alpha = 0$, $I_3^-$ collapses to the numerical floor (median $\sim\!10^{-13}$), while pairwise backgrounds remain robustly active: the median $P_{\mathrm{pair}}$ and $N_{\mathrm{pair}}$ even exceed their $\alpha\!=\!1$ values (Fig.~\ref{fig:causal}c). This confirms that the null manifold suppresses the higher-order signal not by weakening the overall interaction scale, but by specifically eliminating the non-associative three-edge channel. As $\alpha$ increases, $I_3^-$ recovers monotonically, and the fraction of parameter points exhibiting strong suppression decays from near unity at $\alpha = 0$ to zero at $\alpha = 1$ (Fig.~\ref{fig:causal}b). The recovery itself reveals a two-layer bottleneck: $J_{\mathrm{tot}}$ restores rapidly at small $\alpha$, but $I_3^-$ recovers much more slowly, closely tracked by $J_\rho$, which confirms that non-associative capacity is necessary but not sufficient, and that state activation is the rate-limiting step (Appendix~\ref{sm:competition}).
+
+The complementary algebraic route to the same vanishing is realized in the transverse-field Ising specialization through the weight-product factor $C_{\triangle} = 27\, w_{AB} w_{BC} w_{AC}$,
+which controls the dependence of $I_3^-$ on the within-face edge-weight distribution at fixed face capacity (Appendix~\ref{sm:tfising}). Synergy-dominant generation collapses along this magnitude-driven route as well. Together, the alignment-driven and magnitude-driven vanishing modes exhaust the elementary algebraic conditions under which the Jordan associator trivializes, and both confirm that non-associativity is a necessary and continuously tunable ingredient for the dynamical generation of synergy-dominant tripartite structure.
+
+
+\subsection{Tetrahedral extension}
+
+Does the two-layer picture persist in a richer topology?
+We extend the construction to a 5-qubit tetrahedral core $A,B,C,D$ coupled to an external node $E$.
+The reduced state $\rho_{ABCD}$ hosts four triangular faces, on each of which we evaluate $I_3^-$ and the associator diagnostics, reporting face-averaged quantities (Fig.~\ref{fig:5q}).
+
+\begin{figure}[t]
+    \includegraphics[width=\columnwidth]{Fig7_tetrahedral_5q_time_resolved_associator_diagnostics.png}
+    \caption{%
+        \textbf{Time-resolved associator diagnostics in the tetrahedral network (5-qubit).}
+        Same format as Fig.~\ref{fig:4q_crossover}.
+        The bare capacity $J_{\mathrm{tot}}^{\mathrm{mean}}$ (red) is informative from early times; $J_\rho^{\mathrm{mean}}$ (blue) retains a peak at $t_{\mathrm{peak}}\approx 0.41$ but no longer dominates.
+    }\label{fig:5q}
+\end{figure}
+
+The qualitative architecture of the two-layer framework remains intact: $J_\rho$ retains a well-defined peak marking the optimal window of state-resolved diagnostics, while $J_{\mathrm{tot}}$ provides a time-robust structural predictor.
+However, a quantitative shift is evident: $J_{\mathrm{tot}}$ becomes informative at much earlier times than in the triangle, while $J_\rho$ no longer dominates at any time point.
+
+This shift is consistent with a self-averaging mechanism.
+The tetrahedron averages over four triangular faces whose individual non-associative capacities vary with the Hamiltonian parametrization.
+This averaging suppresses the fluctuations that mask the bare-capacity signal in the minimal triangle, allowing structural information to become visible earlier---in direct analogy to how mean-field descriptions sharpen as the number of interacting subsystems increases.
+A complementary signature of the same fluctuation-suppression principle appears in an initial-state ensemble on the 4-qubit triangle: averaging over 50 random product states likewise causes $J_{\mathrm{tot}}$ to become informative earlier than in any single-state scan (Appendix~\ref{app:initial_state}).
+That the same mechanism operates across two independent averaging channels---face averaging in the tetrahedron and state-ensemble averaging in the triangle---strengthens the interpretation of self-averaging as a general statistical feature of the two-layer framework.
+
+
+\section{Discussion}
+
+Our results establish the non-associative algebraic residue of pairwise quantum interactions—quantified by the Jordan associator $\mathcal{A}_{ij} = \tfrac{1}{4}[H_{ij}, [H_{ik}, H_{jk}]]$ as a necessary and continuously tunable engine for the dynamical generation of synergy-dominant tripartite correlations. The state-activated diagnostic $J_\rho$ and the bare algebraic capacity $J_{\mathrm{tot}}$ provide complementary predictors whose relative dominance shifts with network scale: in the minimal triangle, $J_\rho$ leads at early times and $J_{\mathrm{tot}}$ at late times; in the tetrahedron, self-averaging across multiple faces causes $J_{\mathrm{tot}}$ to acquire predictive power from the outset. The associator-null manifold provides a continuous causal control: suppressing the non-associative channel collapses the tripartite signal to the numerical floor while leaving pairwise correlations intact. Under amplitude damping, dephasing, and depolarizing noise, the synergy-dominant signal retains a growing share of total correlations relative to pairwise baselines in both geometries (Appendix~\ref{app:open_robustness}).
+
+This mechanism is distinct from previously identified channels for higher-order emergence in classical complex systems. Phase-reduction approaches have shown that nonlinear pairwise coupling combined with frequency resonance generates effective three-body terms in reduced oscillator dynamics~\cite{nijholt2022EmergentHypernetworks}; antibalanced correlational structures generate synergy-dominance in pairwise Gaussian and Ising systems~\cite{caprioglio2026SynergisticMotifs, marinazzo2019SynergyWarning}; explicit group-level couplings produce distinctive synergistic signatures in classical higher-order networks~\cite{robiglio2025SynergisticSignatures}. The non-associative channel identified here complements these by operating at a different level: rather than a property of correlation structure, dynamical resonance, or explicit higher-order coupling terms, it is a property of the algebra formed by the pairwise interaction operators themselves. In each existing mechanism class, the operative object is some form of three-body irreducible structure in the system's statistics, dynamics, or coupling architecture; the non-associative residue identified here is the operator-algebraic instance of this same general pattern—an irreducible three-edge interference encoded in the nested commutator of pairwise interactions.
+
+The non-associative mechanism is structurally orthogonal to the function-versus-structure debate in classical higher-order networks~\cite{peixoto2026GraphsAre}: rather than a property of node-level functional form, it is a property of the algebra formed by edge interaction operators. This places the mechanism outside the scope of any reparametrization that operates within commutative observable algebras, and identifies it as a candidate mechanism class that classical network science with scalar observables structurally cannot host. The natural setting in which to search for analogous classical mechanisms is therefore networks with matrix-valued local degrees of freedom—including lattice gauge networks, classical $SU(N)$ spin systems, and coupled rigid-body dynamics—where pairwise edge interactions form non-commutative algebras and the associator construction extends naturally. More broadly, this perspective suggests organizing the search for higher-order generation mechanisms around a unified question: what three-body irreducible structure does a system support, and through what algebraic, statistical, or dynamical channel does it propagate into measurable signatures? The mechanism classes identified to date~\cite{caprioglio2026SynergisticMotifs, robiglio2025SynergisticSignatures, nijholt2022EmergentHypernetworks} populate this question only partially; identifying further classes—particularly those that, like non-associativity, lie outside the scope of standard reparametrization arguments—is a natural direction this work motivates.
+
+To anchor these results in standard condensed-matter models, we examine the transverse-field Ising model on the same triangle network (Appendix~\ref{app:tfising}). The analytic per-face capacity $J_{\mathrm{tot}}^2(f) = h^4 \sum_{(ij) \in f} J_{ij}^2$ holds exactly on any graph and provides a closed-form prediction confirmed numerically. A scan over the field-interaction ratio $\lambda = h/\bar{J}$ reveals that $I_3^-$ peaks at intermediate $\lambda \approx 0.5$, consistent with a finite-size precursor of the quantum phase transition where quantum fluctuations—and hence non-associative interference—are strongest. In an Edwards–Anderson sign-disorder ensemble at fixed edge magnitudes, frustrated configurations produce systematically less tripartite synergy than non-frustrated ones, despite sharing identical bare capacity $J_{\mathrm{tot}}$. This confirms that frustration suppresses the state-activated layer $J_\rho$ without altering the algebraic capacity, and highlights the distinction between the static information structure of equilibrium states~\cite{marinazzo2019SynergyWarning} and the dynamical generation efficiency of higher-order correlations from initially unentangled states.
+
+The disappearance of the early-time crossover in the tetrahedron, together with the analogous fluctuation suppression observed across initial-state ensembles in the triangle (Appendix~\ref{sm:initial-state}), points to a general self-averaging mechanism. The graph-additive decomposition $\sum_{f \in \mathcal{T}(G)} J_{\mathrm{tot}}^2(f) = h^4 \sum_{(ij) \in E} m_{ij}(G) J_{ij}^2$, where $m_{ij}(G)$ counts triangles containing edge $(ij)$, makes this concrete in the TF-Ising case: on triangle-decorated lattices with $\lvert\mathcal{T}(G_N)\rvert \propto N$ and bounded-degree triangle multiplicity, the face-mean $J_{\mathrm{tot}}^2$ is $N$-independent while the relative fluctuation $\sigma/\mu$ scales as $1/\sqrt{N}$ (Appendix~\ref{sm:tfising-graph-additivity}). This is the structural anchor for the self-averaging behavior observed in the $4$-qubit-to-$5$-qubit comparison; whether the predictive correlation between face-mean $J_{\mathrm{tot}}$ and face-mean $I_3^-$ also stabilizes in this limit—and whether $J_{\mathrm{tot}}$ alone suffices as a structural predictor in the thermodynamic limit, a quantum analog of the classical mean-field regime—is the substantive empirical content of the planned $N$-scan extension.
+
+Several limitations should be noted. First, $I_3^-$ quantifies the net synergy–redundancy balance, not the absolute magnitude of synergistic information; a full decomposition would require partial information decomposition~\cite{rosas2019Oinfo, scagliarini2023GradientsOinformation} adapted to quantum density matrices, which remains an open theoretical challenge. Complementary multipartite diagnostics built from inclusion–exclusion of entanglement entropies~\cite{santalla2026HyperlinkRepresentation}  provide an alternative window onto higher-order quantum dependencies, and clarifying their relation to the associator-based mechanism identified here is a natural direction. Second, our minimal environment model—a single auxiliary node—is motivated by parsimony; the causal role of non-associativity is independent of environment details, as confirmed by the interpolation experiment in which environment coupling is held fixed, but extension to larger networks with richer environment structure remains to be carried out. Third, non-associative capacity and state activation are necessary but not jointly sufficient: at fixed $J_{\mathrm{tot}}$, the distribution of edge couplings within a triangular face systematically modulates the generated $I_3^-$, with concentration on a single edge or dimer suppressing synergy generation despite full algebraic capacity (Appendix~\ref{app:tfising-edge-geometry}). This topological closure requirement is a constitutive feature of the framework rather than an external constraint, and motivates the spectral extension discussed below.
+
+Looking forward, the most direct extension is the construction of a Jordan Laplacian---a spectral operator built from face-level associator weights---that would connect the present microscopic diagnostics to the spectral theory of higher-order networks~\cite{
+battiston2021PhysicsHigherorder, bianconi2021HigherOrderNetworks}. The graph-additive decomposition of $J_{\mathrm{tot}}^2$ in the TF-Ising case provides a concrete starting point for such a construction, as it naturally bridges the algebraic mechanism identified here with the spectral and topological frameworks developed for simplicial and cell complexes~\cite{
+carletti2023GlobalTopological, schaub2021SignalProcessing}, where collective dynamics depend sensitively on the chosen higher-order representation~\cite{zhang2023HigherorderInteractions}. Recent advances in reconstructing higher-order structure from observed dynamics \cite{delabays2025HypergraphReconstruction, hood2026BroadSpectrum} suggest that the associator could serve as a Hamiltonian-level target for data-driven inference in quantum settings. Generalization beyond spin-$\tfrac{1}{2}$ operators to bosonic or continuous-variable systems may reveal qualitatively different non-associativity structures, while extension to time-
+resolved multivariate frameworks~\cite{santoro2023HigherorderOrganization} could connect the dynamical generation studied here to data-side characterizations of higher-order organization. Our results suggest that the boundary between pairwise and higher-order physics is permeable in quantum systems, mediated by the non-associative character of the operator algebra; whether analogous algebraic mechanisms exist in classical networks with non-abelian local structure is an open question this work motivates.
+
+% \begin{figure}
+% \includegraphics{}%
+% \caption{\label{}}
+% \end{figure}
+
+% Surround figure environment with turnpage environment for landscape
+% figure
+% \begin{turnpage}
+% \begin{figure}
+% \includegraphics{}%
+% \caption{\label{}}
+% \end{figure}
+% \end{turnpage}
+
+% tables should appear as floats within the text
+%
+% Here is an example of the general form of a table:
+% Fill in the caption in the braces of the \caption{} command. Put the label
+% that you will use with \ref{} command in the braces of the \label{} command.
+% Insert the column specifiers (l, r, c, d, etc.) in the empty braces of the
+% \begin{tabular}{} command.
+% The ruledtabular enviroment adds doubled rules to table and sets a
+% reasonable default table settings.
+% Use the table* environment to get a full-width table in two-column
+% Add \usepackage{longtable} and the longtable (or longtable*}
+% environment for nicely formatted long tables. Or use the the [H]
+% placement option to break a long table (with less control than 
+% in longtable).
+% \begin{table}%[H] add [H] placement to break table across pages
+% \caption{\label{}}
+% \begin{ruledtabular}
+% \begin{tabular}{}
+% Lines of table here ending with \\
+% \end{tabular}
+% \end{ruledtabular}
+% \end{table}
+
+% Surround table environment with turnpage environment for landscape
+% table
+% \begin{turnpage}
+% \begin{table}
+% \caption{\label{}}
+% \begin{ruledtabular}
+% \begin{tabular}{}
+% \end{tabular}
+% \end{ruledtabular}
+% \end{table}
+% \end{turnpage}
+
+% Specify following sections are appendices. Use \appendix* if there
+% only one appendix.
+\appendix
+\section{Algebraic framework and theoretical bounds}\label{sm:algebra}
+This appendix collects the algebraic identities used in the main text and clarifies the relation between the two associator diagnostics, $J_{\rm tot}$ and $J_{\rho}$. The purpose is not to derive a closed formula for the tripartite synergy indicator $I_3^{-}$, but to identify
+the Hamiltonian-level algebraic kernel that is probed by the numerical experiments.
+
+\subsection{Jordan associator identity}\label{sm:algebra-assoc_identity}
+The interaction terms considered in this work are Hermitian edge Hamiltonians. For two Hermitian operators $X$ and $Y$, the ordinary operator product $XY$ is not generally Hermitian. By contrast, the
+Jordan product
+\begin{equation}
+    X\circ Y = \frac{1}{2}(XY+YX)
+\end{equation}
+maps Hermitian operators to Hermitian operators. It therefore provides a natural symmetric product at the level of quantum observables.
+
+We use the corresponding Jordan associator to probe whether three edge interactions combine associatively at the observable level:
+\begin{equation}
+    [X,Y,Z]_{\circ} = (X\circ Y)\circ Z - X\circ (Y\circ Z).
+\end{equation}
+This should not be viewed as the introduction of an independentnon-associative algebraic model. Rather, it is the non-associativeresidue induced by applying the Jordan product to edge Hamiltonians inside the ordinary operator algebra.
+
+Using $X\circ Y=(XY+YX)/2$, the two terms are
+\begin{equation}
+    (X\circ Y)\circ Z = \frac{1}{4} (XYZ+YXZ+ZXY+ZYX),
+\end{equation}
+and
+\begin{equation}
+    X\circ (Y\circ Z) = \frac{1}{4}(XYZ+XZY+YZX+ZYX).
+\end{equation}
+Taking the difference gives
+\begin{equation}
+    [X,Y,Z]_{\circ} = \frac{1}{4}(YXZ+ZXY-XZY-YZX),
+\end{equation}
+or equivalently
+\begin{equation}\label{eq:jordan_nested_commutator}
+    [X,Y,Z]_{\circ} = \frac{1}{4}[Y,[X,Z]].
+\end{equation}
+Thus the Jordan associator is a nested-commutator residue of the underlying operator algebra. It vanishes when the relevant operator incompatibilities vanish, and becomes nonzero only through a genuine three-operator incompatibility.
+
+In the numerical implementation, Eq.~\eqref{eq:jordan_nested_commutator} was also checked using noncommutative symbolic variables in \texttt{SymPy}. This symbolic check is only an algebraic consistency verification; the identity itself follows directly from the expansion
+above.
+
+\subsection{Face-resolved associator diagnostics}\label{sm:face_diagnostics}
+For a triangular face $f=(A,B,C)$, let the three edge Hamiltonians be $H_{AB}, H_{BC}$, and $H_{AC}$. We define three
+mediator-resolved Jordan associator channels by placing each edge once in the middle argument:
+\begin{align}
+    \mathcal{A}_{AB} &= [H_{BC},H_{AB},H_{AC}]_{\circ}=\frac{1}{4}[H_{AB},[H_{BC},H_{AC}]],\\
+    \mathcal{A}_{BC} &= [H_{AB},H_{BC},H_{AC}]_{\circ}=\frac{1}{4}[H_{BC},[H_{AB},H_{AC}]],\\
+    \mathcal{A}_{AC} &= [H_{AB},H_{AC},H_{BC}]_{\circ}=\frac{1}{4}[H_{AC},[H_{AB},H_{BC}]].
+\end{align}
+The labels indicate the mediator edge. The precise ordering convention is not essential; the three channels sample the same triangular incompatibility kernel with different mediator choices.
+
+The state-independent bare associator capacity is
+\begin{equation}
+    J_{\mathrm{tot}} = (\lVert\mathcal{A}_{AB}\rVert_F^2 + \lVert\mathcal{A}_{BC}\rVert_F^2 + \lVert\mathcal{A}_{AC}\rVert_F^2)^{1/2},
+\end{equation}
+where $\lVert\cdot\rVert_F$ is the Frobenius norm. This quantity depends only on the face Hamiltonians.
+
+For a reduced face state $\rho_f(t)$, the state-resolved associator readout is
+\begin{equation}
+    J_\rho(t)=(
+    \lvert\mathrm{Tr}[\rho_f(t)\mathcal A_{AB}]\rvert^2 +
+    \lvert\mathrm{Tr}[\rho_f(t)\mathcal A_{BC}]\rvert^2 +
+    \lvert\mathrm{Tr}[\rho_f(t)\mathcal A_{AC}]\rvert^2)^{1/2}.
+\end{equation}
+Thus $J_{\mathrm{tot}}$ measures the operator-level size of the associator sector, while $J_\rho$ measures how strongly the evolving state reads out that sector.
+
+\subsection{Cauchy--Schwarz activation bound}
+\label{sm:algebra-cs-bound}
+
+The relation between \(J_{\rho}\) and \(J_{\rm tot}\) follows from the
+Hilbert--Schmidt Cauchy--Schwarz inequality. For each mediator channel
+\(\mu\in\{AB,BC,AC\}\),
+\begin{equation}
+    \lvert{\mathrm{Tr}}[\rho_f\mathcal{A}_\mu]\rvert \leq
+    \lVert\rho_f\rVert_F\lVert\mathcal{A}_\mu\rVert_F.
+\end{equation}
+Squaring and summing over the three channels gives
+\begin{equation}
+    J_\rho^2\leq\|\rho_f\|_F^2 J_{\mathrm{tot}}^2 = {\mathrm{Tr}}[\rho_f^2]\,J_{\mathrm{tot}}^2 .
+\end{equation}
+Hence
+\begin{equation}\label{eq:Jrho_Jtot_bound}
+    J_\rho\leq\sqrt{{\mathrm{Tr}}[\rho_f^2]}J_{\mathrm{tot}}.
+\end{equation}
+Equivalently, for $J_{\mathrm{tot}}>0$, the normalized activation ratio
+\begin{equation}
+    \eta=\frac{J_\rho}{J_{\mathrm{tot}}}
+\end{equation}
+satisfies
+\begin{equation}\label{eq:eta_bound}
+    \eta\leq\sqrt{{\mathrm{Tr}}[\rho_f^2]} \leq 1 .
+\end{equation}
+
+This bound implies $J_{\mathrm{tot}}=0\Rightarrow J_\rho=0$ for every state $\rho_f$. The converse need not hold: a Hamiltonian may contain a nonzero associator sector while the evolving state has little projection onto it. This is the algebraic basis for treating $J_{\mathrm{tot}}$ and $J_\rho$ as two levels of the same diagnostic: available capacity and state-conditioned activation.
+
+\subsection{Short-time structure and interpretation}\label{sm:algebra-short-time}
+The Cauchy--Schwarz bound contains the scalar factor $\sqrt{{\mathrm{Tr}}[\rho_f^2]}$, which measures the Frobenius norm of the reduced state. This factor should not be confused with the
+associator channel itself. To see this, consider the short-time expansion
+\begin{equation}
+    \rho(t)=\rho_0-it[H,\rho_0] - \frac{t^2}{2}[H,[H,\rho_0]] + \mathcal{O}(t^3),
+\end{equation}
+with
+\begin{equation}
+     H=H_{AB}+H_{BC}+H_{AC}+\cdots .
+\end{equation}
+The \(\mathcal{O}(t^2)\) contribution to any reduced-state purity \({\mathrm{Tr}}[\rho_f(t)^2]\) is at most quadratic in the Hamiltonian terms. It may contain single-edge and two-edge cross terms, but it cannot contain a monomial involving all three internal edges $H_{AB}$, $H_{BC}$, and $H_{AC}$ simultaneously. This absence of three-edge terms at order $t^2$ was verified symbolically in the non-commutative expansion.
+
+Therefore the purity prefactor in Eq.~\eqref{eq:eta_bound} does not by itself encode the three-edge associator kernel. The associator enters through the expectation values ${\mathrm{Tr}}[\rho_f(t)\mathcal{A}_\mu]$, where Eq.~\eqref{eq:jordan_nested_commutator} identifies $\mathcal{A}_\mu$ as a nested-commutator residue of the edge Hamiltonians. Thus $J_{\mathrm{tot}}$ measures the available operator-level three-edge incompatibility on a face, while $J_\rho$ measures the state-conditioned readout of that incompatibility.
+
+This motivates $J_\rho$ as the relevant early-time coordinate for the negative tripartite-information signal: the Hamiltonian may contain a nonzero associator sector, but the reduced state must project onto it for the signal to appear. The identities above should not be read as a closed-form derivation of $I_3^-$ from the associator. They identify the Hamiltonian-level algebraic kernel whose state-conditioned activation is tested in the parameter scans and in the associator-null ablation experiment.
+
+\section{Hamiltonian construction and numerical details}\label{sm:numerics}
+This section specifies the numerical conventions used throughout the scans: the fixed-norm XYZ Hamiltonian family, edge-specific shape vectors, auxiliary coupling convention, initial states, scan grids, time evolution, and associator-null interpolation.
+
+\subsection{Fixed-norm XYZ Hamiltonian family}\label{sm:numerics-xyz}
+
+All XYZ scans use two-qubit edge Hamiltonians
+\begin{equation}
+    H_{ij} = J_x^{(ij)}\sigma_x^i\sigma_x^j + J_y^{(ij)}\sigma_y^i\sigma_y^j + J_z^{(ij)}\sigma_z^i\sigma_z^j,
+\end{equation}
+with coupling vector strength fixed by
+\begin{equation}
+    \lVert\mathbf{J}_{ij}\rVert = \sqrt{(J_x^{(ij)})^2+(J_y^{(ij)})^2+(J_z^{(ij)})^2}=R_{ij}.
+\end{equation}
+Thus the scan changes the relative $XX, YY$, and $ZZ$ weights, but not the coefficient-vector norm of each edge.
+
+The two-parameter family is generated from the angular seed
+\begin{equation}
+    \hat{\mathbf{u}}(\theta,\phi)=(\sin\theta\cos\phi, \sin\theta\sin\phi, \cos\theta), \quad \theta,\phi\in[0,\pi/2],
+\end{equation}
+which is deformed by an edge-specific shape vector $\mathbf{s}_{ij}$:
+\begin{equation}
+    \mathbf{v}_{ij}(\theta,\phi) = \hat{\mathbf{u}}(\theta,\phi)\odot \mathbf{s}_{ij}.
+\end{equation}
+Here $\odot$ denotes componentwise multiplication. The deformed vector is then normalized back to the target edge norm,
+\begin{equation}
+    \mathbf{J}_{ij}(\theta,\phi) = R_{ij}\frac{\mathbf v_{ij}(\theta,\phi)}{\lVert\mathbf v_{ij}(\theta,\phi)\rVert}
+    =R_{ij}\frac{\hat{\mathbf u}(\theta,\phi)\odot \mathbf{s}_{ij}}{
+    \lVert\hat{\mathbf u}(\theta,\phi)\odot \mathbf{s}_{ij}\rVert} .
+\end{equation}
+All edges therefore share the same global $(\theta,\phi)$ scan, while the shape vectors make the edge Hamiltonians non-identical. In the numerical grids below we use a small offset
+$\theta_{\min}=0.1$ to avoid the degenerate pole at $\theta=0$.
+
+For the $4$-qubit triangle-plus-auxiliary system,
+\begin{equation}
+    E_{4Q}=\{AB,BC,AC,CD\},
+\end{equation}
+with
+\begin{align}
+    \mathbf s_{AB}&=(1.00,0.70,0.30),&
+    \mathbf s_{BC}&=(0.80,1.00,0.50),\\
+    \mathbf s_{AC}&=(0.60,0.40,1.00),&
+    \mathbf s_{CD}&=(1.00,0.80,0.60).
+\end{align}
+For the 5-qubit tetrahedral extension,
+\begin{equation}
+    E_{5Q}=\left\{AB,AC,AD,BC,BD,CD,DE\right\},
+\end{equation}
+with
+\begin{align}
+    \mathbf s_{AB}&=(1.00,0.70,0.30),&
+    \mathbf s_{AC}&=(0.60,0.40,1.00),\\
+    \mathbf s_{AD}&=(0.90,0.55,0.75),&
+    \mathbf s_{BC}&=(0.80,1.00,0.50),\\
+    \mathbf s_{BD}&=(0.70,0.95,0.65),&
+    \mathbf s_{CD}&=(1.10,0.85,0.60),\\
+    \mathbf s_{DE}&=(1.00,0.80,0.60).
+\end{align}
+The edge norms $R_{ij}$, including the weak auxiliary-edge norms, are specified below.
+
+\subsection{Auxiliary coupling}\label{sm:numerics-auxiliary}
+
+The internal interaction strength is fixed to $R=\sqrt{3}$. In the $4$-qubit triangle benchmark, the internal subsystem is $ABC$, and the auxiliary node $D$ is coupled through a single weak edge $CD$:
+\begin{equation}
+    H^{(4)}=H_{AB}+H_{BC}+H_{AC}+H_{CD}.
+\end{equation}
+The internal edges have norm
+\begin{equation}
+    R_{AB}=R_{BC}=R_{AC}=R, \quad R_{CD}=g_D R, \quad g_D=0.20 .
+\end{equation}
+The auxiliary node is included in the full unitary evolution, but triangle observables are evaluated on
+\begin{equation}
+    \rho_{ABC}(t) = {\mathrm{Tr}}_{D}[\rho(t)] .
+\end{equation}
+Thus $D$ provides a weak environment-like coupling without being part of the target tripartite subsystem.
+
+In the $5$-qubit tetrahedral extension, the internal subsystem is the tetrahedron $ABCD$, and the external node $E$ is coupled only through the edge $DE$:
+\begin{equation}
+    H^{(5)}=H_{AB}+H_{AC}+H_{AD}+H_{BC}+H_{BD}+H_{CD}+H_{DE}.
+\end{equation}
+The six internal tetrahedral edges have norm $R$, while
+\begin{equation}
+    R_{DE}=g_E R, \quad g_E=0.20
+\end{equation}
+for the main time-resolved tetrahedral scan. Stronger values of $g_E$ are used only in the supplementary environment-coupling scan.
+
+The external node $E$ is included in the full evolution and traced out before evaluating internal tetrahedral observables:
+\begin{equation}
+    \rho_{ABCD}(t) = {\mathrm{Tr}}_{E}[\rho(t)] .
+\end{equation}
+Face-level tripartite quantities are then computed on
+\begin{equation}
+    ABC,\quad ABD,\quad ACD,\quad BCD .
+\end{equation}
+
+\subsection{Initial states}\label{sm:numerics-initial-states}
+In the 4-qubit triangle system, we use three types of initial states. The axis-biased product-state control is
+\begin{equation}
+    |\psi_0^{+}\rangle = |+\rangle_A\otimes |+\rangle_B\otimes |+\rangle_C \otimes |0\rangle_D,
+    \quad |+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt2}.
+\end{equation}
+This state is unentangled but has an explicit single-axis bias.
+
+The main 4-qubit benchmark uses a fixed random product state,
+\begin{equation}
+    |\psi_0^{\rm rp}\rangle = |\psi_A\rangle\otimes|\psi_B\rangle\otimes|\psi_C\rangle \otimes |0\rangle_D.
+\end{equation}
+The single-qubit factors on $A,B,C$ are normalized complex Gaussian vectors generated with NumPy seed $42$. This fixed product state is reused across the main $4$-qubit crossover, early-time mechanism, and associator-null scans.
+
+As a boundary-condition control, we also use a Haar-random pure state on the full $4$-qubit Hilbert space,
+\begin{equation}
+    |\psi_0^{\rm Haar}\rangle\in \mathbb C^{16},
+\end{equation}
+generated as a normalized complex Gaussian vector with seed $42$.
+
+For the $4$-qubit initial-state ensemble scan, we sample
+\begin{equation}
+    |\psi_0^{(n)}\rangle = |\psi_A^{(n)}\rangle \otimes|\psi_B^{(n)}\rangle \otimes|\psi_C^{(n)}\rangle \otimes|0\rangle_D .
+\end{equation}
+The ensemble uses NumPy seed $2027$, contains $50$ random product states, and is reused at every sampled time.
+
+For the $5$-qubit tetrahedral benchmark, the default initial condition is
+\begin{equation}
+    |\psi_0^{(5Q)}\rangle = |\psi_A\rangle\otimes|\psi_B\rangle\otimes|\psi_C\rangle \otimes|\psi_D\rangle\otimes|0\rangle_E.
+\end{equation}
+The four internal factors are normalized complex Gaussian vectors generated with NumPy seed $123$. This fixed state is used in the main tetrahedral time-resolved scan.
+
+The explicit single-qubit amplitudes are fully determined by the NumPy seeds specified above (seed $42$ for $4$Q, seed $123$ for $5$Q) and are recorded in the accompanying code repository.
+
+\begin{comment}
+The explicit single-qubit factors used in the fixed random product states are listed in Table~\ref{tab:fixed_initial_states}. Each row gives $|\psi_q\rangle=a_q|0\rangle+b_q|1\rangle$.
+
+\begin{table}[h]
+\centering
+\caption{Fixed random product initial states used in the main 4-qubit
+and 5-qubit scans.}
+\label{tab:fixed_initial_states}
+\begin{tabular}{cc|cc}
+\hline
+system & qubit & \(a_q\) & \(b_q\) \\
+\hline
+4Q & \(A\) & \(0.188174+0.463431i\) & \(-0.642228+0.580833i\) \\
+4Q & \(B\) & \(-0.823100+0.053933i\) & \(-0.549362-0.133416i\) \\
+4Q & \(C\) & \(-0.011577+0.605939i\) & \(-0.587780+0.535928i\) \\
+\hline
+5Q & \(A\) & \(-0.590060+0.768311i\) & \(-0.219403+0.115715i\) \\
+5Q & \(B\) & \(0.671385-0.464353i\) & \(0.421045+0.395399i\) \\
+5Q & \(C\) & \(-0.198569+0.060943i\) & \(-0.202202-0.957064i\) \\
+5Q & \(D\) & \(0.701184+0.588318i\) & \(-0.394708+0.080179i\) \\
+\hline
+\end{tabular}
+\end{table}
+\end{comment}
+
+\subsection{Scan grids}\label{sm:numerics-scan-grids}
+All XYZ parameter scans are performed over the angular variables $(\theta,\phi)$. The main 4-qubit scans use the $20\times20$ grid $G_{4Q}$,
+\begin{equation}
+\begin{aligned}
+    \theta_m &= 0.1+m\frac{\pi/2-0.1}{19}, &&m=0,\ldots,19,\\
+    \phi_n &= n\frac{\pi/2}{19}, &&n=0,\ldots,19 .
+\end{aligned}
+\end{equation}
+Thus each $4$-qubit time slice contains $400$ Hamiltonian points. The offset $\theta_{\min}=0.1$ avoids the degenerate pole of the angular parameterization.
+
+The dense time grid for the main 4-qubit time-resolved scan is
+\begin{align}
+T_{4Q} = {\mathrm{unique}}
+\big(&{\mathrm{linspace}}(0.02,0.10,5)\cup{\mathrm{linspace}}(0.10,0.30,6)\nonumber\\
+&\cup{\mathrm{linspace}}(0.30,0.55,10)\cup{\mathrm{linspace}}(0.55,1.00,6)\big),
+\end{align}
+where duplicate endpoints are removed. The associator-null interpolation uses
+\begin{equation}
+    \alpha\in\{0,0.1,0.2,\ldots,1.0\}, \quad t\in\{0.10,0.15,0.25\}.
+\end{equation}
+The initial-state ensemble scan uses
+\begin{equation}
+    T_{\mathrm{ens}} = \left\{0.10,0.15,0.20,0.25,0.30,0.40,0.50,0.60,0.70,0.80,1.00\right\}.
+\end{equation}
+
+For the $5$-qubit tetrahedral extension, we use the lighter $12\times12$ grid $G_{5Q}$,
+\begin{equation}
+\begin{aligned}
+    \theta_m^{(5Q)} &= 0.1+m\frac{\pi/2-0.1}{11}, &&m=0,\ldots,11,\\ 
+    \phi_n^{(5Q)} &= n\frac{\pi/2}{11}, &&n=0,\ldots,11.
+\end{aligned}
+\end{equation}
+The main tetrahedral time-resolved scan uses $g_E=0.20$ and
+\begin{align}
+T_{5Q} = {\mathrm{unique}}
+\big(&{\mathrm{linspace}}(0.05,0.15,5)\cup{\mathrm{linspace}}(0.15,0.25,9)\nonumber\\
+&\cup{\mathrm{linspace}}(0.25,0.45,11)\cup{\mathrm{linspace}}(0.45,0.70,6)\nonumber\\
+&\cup{\mathrm{linspace}}(0.70,0.90,9)\cup{\mathrm{linspace}}(0.90,1.00,3)\big).
+\end{align}
+
+\begin{table}[h]
+\centering
+\caption{Non-angular scan axes used in the main and supplementary scans.
+All 4Q scans use the \(20\times20\) angular grid \(G_{4Q}\), and the
+5Q tetrahedral scan uses the \(12\times12\) grid \(G_{5Q}\).}
+\label{tab:scan_grids}
+\begin{tabular}{l|l|l}
+\hline
+scan & additional sweep & repeated over \\
+\hline
+4Q time-resolved scan & \(t\in T_{4Q}\) \\
+4Q early-time mechanism scan & selected early-time slices \\
+4Q associator-null scan & \(\alpha\in\{0,0.1,\ldots,1.0\}\), \(t\in\{0.10,0.15,0.25\}\) \\
+4Q initial-state ensemble & \(t\in T_{\rm ens}\) \\
+5Q tetrahedral time-resolved scan & \(t\in T_{5Q}\), \(g_E=0.20\)  \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Time evolution and associator-null interpolation}\label{sm:numerics-evolution-null}
+
+For all closed-system scans, the full system is evolved by exact matrix
+exponentiation,
+\begin{equation}
+    U(t)=e^{-iHt},\quad \rho(t)=U(t)\rho_0U^\dagger(t).
+\end{equation}
+The Hamiltonian is represented as a $16\times16$ matrix in the $4$-qubit system and as a $(32\times32$ matrix in the $5$-qubit system. After full-system evolution, the auxiliary node is traced out before internal observables are evaluated:
+\begin{equation}
+    \rho_{ABC}(t)={\rm Tr}_D[\rho(t)], \quad \rho_{ABCD}(t)={\rm Tr}_E[\rho(t)] .
+\end{equation}
+
+At each sampled time $t$, the full $(\theta,\phi)$ Hamiltonian grid is scanned; for every grid point we evolve the state, trace out the auxiliary node, and compute $I_3^-$, $J_\rho$, and $J_{\mathrm{tot}}$ on the reduced internal state. The Pearson correlations $r_\rho(t)$ and $r_{\mathrm{tot}}(t)$ are then evaluated across the grid. The same procedure is used for all closed-system scans; in the tetrahedral extension, observables are computed on the four triangular faces of $\rho_{ABCD}(t)$ and face-averaged when required.
+
+\begin{comment}
+The time-resolved grid-scan procedure is summarized in Algorithm~\ref{alg:closed_scan}. The same logic is used for the $4$-qubit time-resolved scan, the early-time mechanism scan, the
+associator-null interpolation, and the 5-qubit tetrahedral extension. For the tetrahedral extension, the final observables are computed on the four triangular faces of $\rho_{ABCD}(t)$ and then face-averaged when required.
+
+\begin{algorithm}[h]
+\caption{Closed-system time-resolved grid scan}
+\label{alg:closed_scan}
+\begin{algorithmic}[1]
+\State \textbf{Input:} time grid \(T\), Hamiltonian grid \(G\), initial state \(\rho_0\)
+\State \textbf{Output:}
+\Statex \hspace{\algorithmicindent}
+\(r_\rho(t)\), \(r_{\rm tot}(t)\), and \(I_{3,\max}^-(t)\)
+
+\For{each \(t\in T\)}
+    \State Initialize lists \(L_{I_3^-}\), \(L_{J_\rho}\), and \(L_{J_{\rm tot}}\)
+
+    \For{each \((\theta,\phi)\in G\)}
+        \State Construct the Hamiltonian \(H(\theta,\phi)\)
+        \State Evolve the full state:
+        \begin{equation}
+            \rho(t)=e^{-iH(\theta,\phi)t}\rho_0e^{iH(\theta,\phi)t}
+        \end{equation}
+        \State Trace out the auxiliary node to obtain the reduced internal state
+        \State Compute \(I_3^-\) from the reduced-state entropies. Compute \(\mathcal A_\mu\), \(J_{\rm tot}\), and \(J_\rho\)
+        \State Append \(I_3^-\), \(J_\rho\), and \(J_{\rm tot}\) to their lists
+    \EndFor
+
+    \State Compute
+    \begin{equation}
+        r_\rho(t)={\rm corr}(L_{J_\rho},L_{I_3^-}),\quad
+        r_{\rm tot}(t)={\rm corr}(L_{J_{\rm tot}},L_{I_3^-})
+    \end{equation}
+    \State Compute \(I_{3,\max}^-(t)=\max L_{I_3^-}\)
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+\end{comment}
+
+For the open-system robustness tests, coherent evolution is first used
+as a preparation stage,
+\begin{equation}
+    \rho_{\mathrm{prep}} = e^{-iHt_{\rm prep}}\rho_0e^{iHt_{\rm prep}} .
+\end{equation}
+Starting from $\rho_{\mathrm{prep}}$, the state is evolved with a Lindblad master equation,
+\begin{equation}
+    \dot\rho=-i[H,\rho]+
+    \sum_\ell\left(L_\ell\rho L_\ell^\dagger-\frac12\{L_\ell^\dagger L_\ell,\rho\}\right),
+\end{equation}
+implemented using QuTiP's \texttt{mesolve}. In the $4$-qubit robustness tests, collapse operators act on $A,B,C$; in the $5$-qubit tests, they act on $A,B,C,D$. The auxiliary nodes $D$ and $E$ are not directly decohered.
+
+The three decoherence channels are implemented in Lindblad form as
+\begin{equation}
+    L_q=\sqrt{\gamma}\,\sigma_q^-, \quad L_q=\sqrt{\gamma}\,\sigma_q^z, \quad
+    L_{q,\mu}=\sqrt{\gamma/3}\,\sigma_q^\mu,\quad \mu=x,y,z,
+\end{equation}
+for amplitude damping, dephasing, and depolarizing noise, respectively. The default robustness parameters are
+\begin{equation}
+    t_{\mathrm{prep}}=0.80,\quad t_{\mathrm{open}}=1.20,\quad \gamma=0.20 .
+\end{equation}
+Prepared families are selected using the product of $I_3^-$ and a dyadic negativity baseline at $t_{\mathrm{prep}}$. This selection is used only to retain families with both a visible tripartite signal and a nonzero dyadic entanglement background. Dyadic baselines are reported as edge means; in the triangle,
+\begin{equation}
+    \bar N_2^{\triangle} = \frac{1}{3} N_{\mathrm{pair,sum}},
+    \quad \bar I_2^{\triangle} = \frac{1}{3} P_{\mathrm{pair}},
+\end{equation}
+and in the tetrahedron the corresponding means are taken over the six internal edges.
+
+The associator-null family is constructed by removing directional incompatibility among the XYZ edge vectors while preserving their norms. For each edge $ij$, let
+\begin{equation}
+    \mathbf{J}_{ij}^{(1)} = \mathbf{J}_{ij}(\theta,\phi), \quad
+    \lVert\mathbf J_{ij}^{(1)}\rVert=R_{ij},
+\end{equation}
+and choose the common-axis reference
+\begin{equation}
+    \hat{\mathbf{n}}=\hat{\mathbf{z}}, \quad \mathbf{J}_{ij}^{(0)}=R_{ij}\hat{\mathbf{n}}.
+\end{equation}
+The interpolation is performed edge by edge,
+\begin{equation}
+    \tilde{\mathbf J}_{ij}(\alpha) = (1-\alpha)\mathbf{J}_{ij}^{(0)} + \alpha\mathbf{J}_{ij}^{(1)},
+    \quad \mathbf J_{ij}(\alpha) = R_{ij}\frac{\tilde{\mathbf J}_{ij}(\alpha)}{\lVert\tilde{\mathbf J}_{ij}(\alpha)\rVert} .
+\end{equation}
+Thus $\alpha$ changes the directional incompatibility of the edge Hamiltonians without changing their coupling norms. The endpoint $\alpha=0$ gives the common-axis family, while $\alpha=1$ recovers the original fixed-norm XYZ family.
+
+In the $4$-qubit ablation scan, this interpolation is applied to $AB,BC,AC$, and $CD$. The associator-null condition concerns the internal triangle $ABC$: at $\alpha=0$, the three internal edge Hamiltonians are all aligned along $Z$ and commute pairwise, so
+\begin{equation}
+    \mathcal{A}_{AB}=\mathcal{A}_{BC}=\mathcal{A}_{AC}=0.
+\end{equation}
+The auxiliary edge $CD$ remains weak throughout the interpolation because its norm is fixed to $g_D R$; it participates in the full unitary evolution but does not enter the internal triangular associator.
+
+\section{Competition metric analysis}\label{sm:competition}
+\subsection{Candidate diagnostics and time-resolved comparison} \label{sm:competition-diagnostics}
+
+To test whether the associator diagnostics provide information beyond standard state-level and pairwise quantities, we compare $J_{\rho}$ and $J_{\mathrm{tot}}$ against a set of candidate indicators computed on the same Hamiltonian scans. All correlations in this subsection are computed across the $(\theta,\phi)$ grid at fixed time, using the same fixed random product initial state as in the main $4$-qubit benchmark.
+
+The candidate diagnostics are summarized in Table~\ref{tab:candidate_diagnostics}. They include reduced-state mixedness, pairwise correlation and entanglement baselines, a normalized
+associator activation ratio, a GHZ-targeted witness, and tripartite negativity proxies based on the three bipartitions.
+
+\begin{table}[h]
+\centering
+\caption{Candidate diagnostics compared with \(I_3^-\) in the
+time-resolved competition analysis.}
+\label{tab:candidate_diagnostics}
+\begin{tabular}{c|c|c}
+\hline
+diagnostic & definition & role \\
+\hline
+\(J_\rho\) & state-resolved associator readout & associator activation \\
+\(J_{\rm tot}\) & bare associator capacity & Hamiltonian-level capacity \\
+\(\eta\) & \(J_\rho/J_{\rm tot}\) & normalized activation efficiency \\
+\(S_L\) & \(1-{\rm Tr}[\rho_{ABC}^2]\) & reduced-state mixedness \\
+\(P_{\rm pair}\) & \(I(A:B)+I(A:C)+I(B:C)\) & pairwise total correlation \\
+\(N_{\rm sum}\) & \(\mathcal N_{AB}+\mathcal N_{AC}+\mathcal N_{BC}\) & pairwise entanglement \\
+\(W_{\rm GHZ}\) & \(\langle{\rm GHZ}|\rho_{ABC}|{\rm GHZ}\rangle-\frac12\) & GHZ-targeted witness \\
+\(N_{\rm tri,min}\) & \(\min\{\mathcal N_{A|BC},\mathcal N_{B|AC},\mathcal N_{C|AB}\}\) & bipartition inseparability \\
+\(N_{\rm tri,geom}\) & \((\mathcal N_{A|BC}\mathcal N_{B|AC}\mathcal N_{C|AB})^{1/3}\) & bipartition inseparability \\
+\hline
+\end{tabular}
+\end{table}
+
+For each candidate metric \(M\), we compute the Pearson correlation
+\begin{equation}
+    r_M(t)={\mathrm{corr}}_{(\theta,\phi)}
+    \left(M(\theta,\phi;t),I_3^-(\theta,\phi;t)\right)
+\end{equation}
+at fixed time $t$. The competition heatmap reports these correlations for
+\begin{equation}
+    t\in\left\{0.05,0.10,0.15,0.20,0.25,0.30,0.40,0.50,0.75,1.00\right\}.
+\end{equation}
+The main heatmap includes
+$J_\rho,J_{\mathrm{tot}},\eta,P_{\mathrm{pair}},N_{\mathrm{sum}},W_{\mathrm{GHZ}}$, and
+$S_L$. The tripartite negativity proxies are analyzed separately as diagnostic checks, because their behavior is dominated by bipartition inseparability rather than by the negative tripartite-information sector.
+
+\begin{figure}[h]
+ \includegraphics[width=1.0\textwidth]{FigS1_competition_heatmap.png}
+ \caption{Time-resolved diagnostic competition in the \(4\)-qubit triangle network. For each metric $M$, the heatmap reports the Pearson correlation between $M$ and $I_3^-$ across the $(\theta,\phi)$  Hamiltonian grid at fixed time.}
+ \label{fig:competition_heatmap}
+\end{figure}
+
+The heatmap shows that the associator diagnostics occupy a distinct role among the tested quantities. In the early activation window, $J_{\rho}$ is the most direct state-resolved coordinate for organizing the high-$I_3^-$ regions of the Hamiltonian scan. At later times,
+$J_{\mathrm{tot}}$ becomes increasingly stable as a state-independent structural predictor. By contrast, $S_L$ captures the kinematic opening of reduced-state mixedness but does not identify the Hamiltonian-level channel responsible for the signal.
+
+The pairwise baselines track lower-order correlation and entanglement backgrounds, but they do not selectively isolate the same parameter regions as the negative tripartite-information signal. The GHZ witness is weak because it targets one specific entanglement class, whereas the
+states generated here need not be GHZ-like. The tripartite negativity proxies similarly characterize inseparability across bipartitions rather than the synergy-dominant information balance measured by $I_3^-$.
+
+Thus the competition analysis does not imply that the alternative metrics are uninformative. Rather, it separates their roles: $S_L$ marks a mixedness threshold, pairwise quantities quantify lower-order backgrounds, $W_{\mathrm{GHZ}}$ tests a specific entanglement type, and tripartite negativity proxies test bipartition inseparability. The associator diagnostics are the only candidates in this comparison that are tied directly to the Hamiltonian-level
+three-edge incompatibility identified in Sec.~\ref{sm:algebra}.
+
+\subsection{Associator-null recovery hierarchy}
+\label{sm:competition-recovery}
+
+The associator-null interpolation provides a second metric comparison: instead of asking which diagnostic correlates with $I_3^-$ at a fixed Hamiltonian family, it asks how different quantities recover as the non-associative channel is restored from the exact null manifold.
+
+For each scan point $(\theta,\phi)$, time $t$, and interpolation strength $\alpha$, we compute the normalized recovery ratios
+\begin{equation}
+    R_{I_3^-}(\alpha;t)=\frac{I_3^-(\alpha;t)}{I_3^-(1;t)},
+\end{equation}
+and
+\begin{equation}
+    R_{J_\rho}(\alpha;t)=\frac{J_\rho(\alpha;t)}{J_\rho(1;t)}, \quad
+    R_{J_{\mathrm{tot}}}(\alpha)=\frac{J_{\mathrm{tot}}(\alpha)}{J_{\mathrm{tot}}(1)} .
+\end{equation}
+Ratios are evaluated pointwise on the Hamiltonian grid and then summarized by the median and interquartile range. Grid points whose $\alpha=1$ denominator is below numerical tolerance are excluded from the corresponding ratio summary.
+
+\begin{figure}[h]
+ \includegraphics[width=1.0\textwidth]{Fig_recovery_refined_v2.png}
+ \caption{Associator-null recovery hierarchy. The bare capacity $J_{\mathrm{tot}}$ recovers rapidly once the edge Hamiltonians leave the common-axis null manifold, whereas $I_3^-$ recovers more slowly and follows the state-resolved diagnostic $J_\rho$ more closely.}
+ \label{fig:recovery_hierarchy}
+\end{figure}
+
+The recovery curves separate the two associator layers. The bare capacity $J_{\mathrm{tot}}$ rises rapidly as soon as $\alpha>0$, because the edge Hamiltonians quickly regain noncommuting XYZ components. However, the tripartite synergy indicator $I_3^-$ does not recover at
+the same rate. Its recovery is slower and is tracked more closely by $J_\rho$, indicating that restoring operator-level non-associative capacity is not sufficient to immediately restore the negative tripartite-information signal.
+
+This recovery hierarchy is the interpolation-side counterpart of the time-resolved capacity activation distinction. $J_{\mathrm{tot}}$ measures the restored Hamiltonian-level associator capacity, while $J_\rho$ measures state-conditioned access to that capacity. The slower recovery of $I_3^-$ therefore supports the interpretation that state activation is the bottleneck between available non-associative structure and the observable tripartite-information signal.
+
+The pairwise baselines provide an additional control. Along the same interpolation, pairwise mutual information and pairwise negativity remain finite at the null point and reorganize as $\alpha$ is increased, but they do not exhibit the same null collapse as $I_3^-$. Thus the recovery analysis distinguishes three roles: $J_{\mathrm{tot}}$ tracks restored algebraic capacity, $J_\rho$ tracks state-resolved activation, and $I_3^-$ records when the reduced tripartite state enters the synergy-dominant information sector.
+
+
+\section{Initial-state robustness and boundary conditions}\label{sm:initial-state}
+\subsection{Boundary conditions: plus and Haar-random starts}\label{sm:initial-state-boundary}
+
+The main benchmark uses a fixed random product initial state. To delimit the validity domain of the associator diagnostics, we also test two boundary conditions: an axis-biased product state,
+\begin{equation}
+    |\psi_0^+\rangle=|+\rangle_A\otimes |+\rangle_B\otimes |+\rangle_C \otimes |0\rangle_D,
+    \quad |+\rangle=\frac{|0\rangle+|1\rangle}{\sqrt2},
+\end{equation}
+and a Haar-random pure state on the full 4-qubit Hilbert space,
+\begin{equation}
+    |\psi_0^{\rm Haar}\rangle\in\mathbb C^{16}.
+\end{equation}
+
+The $|+\rangle^{\otimes 3}\otimes |0\rangle$ control preserves a fully unentangled start and produces a strong early association between $J_\rho$ and $I_3^-$. However, the response is more transient and more strongly axis-dependent than in the fixed random product benchmark.
+We therefore use this state as an onset control rather than as the main reference case.
+
+The Haar-random control probes the opposite boundary. Because the system starts from a highly entangled state with already mixed reduced subsystems, the scan no longer isolates the clean generation of tripartite structure from a factorized state. In this regime the associator diagnostics lose their role as sharp onset coordinates, and the parameter-space structure is dominated by the pre-existing many-body content of the initial state.
+
+\begin{figure}[h]
+ \includegraphics[width=1.0\textwidth]{Fig3_initial_state_robustness_clean.png}
+ \caption{Boundary-condition tests for the 4-qubit triangle network. The plus-state control gives a strong but axis-biased transient response, while the Haar-random control starts from a highly entangled state and therefore no longer probes clean dynamical generation from a product state.}
+ \label{fig:initial_state_boundary}
+\end{figure}
+
+These controls delimit the intended scope of the method. The associator diagnostics are most informative in low-entanglement generative settings, where the negative tripartite-information signal is created dynamically by the interaction Hamiltonian. They are not intended as a universal classifier for arbitrary quantum states.
+
+For reference, the Page-formula estimate for a Haar-random 4-qubit pure
+state traced to three qubits gives
+\begin{equation}
+    \mathbb{E}[I_3] = 4\,\mathbb E[S_A] - 3\,\mathbb E[S_{AB}] \approx -0.528,
+\end{equation}
+corresponding to $\mathbb E[I_3^-]\approx 0.528$. A numerical ensemble of $10000$ Haar samples gives
+\begin{equation}
+    \mathbb E[I_3^-]=0.528\pm0.175,
+\end{equation}
+with $99.7\%$ of samples in the synergy-dominant regime. This value is used only as a Haar baseline; it is not part of the clean generative benchmark.
+
+\subsection{Random-product ensemble scan}\label{sm:initial-state-ensemble}
+We next test how the state-resolved diagnostic behaves across an ensemble of admissible low-entanglement starts. We sample $50$ random product initial states,
+\begin{equation}
+    |\psi_0^{(n)}\rangle=|\psi_A^{(n)}\rangle\otimes|\psi_B^{(n)}\rangle \otimes|\psi_C^{(n)}\rangle\otimes|0\rangle_D, \quad n=1,\ldots,50 .
+\end{equation}
+For each initial state and each sampled time, the same $20\times20$ fixed-norm XYZ Hamiltonian grid is rescanned. This separates variation across Hamiltonians from variation across initial product states.
+
+For each state $n$ and time $t$, we compute the within-state diagnostic correlations and the strongest tripartite synergy indicator generated by that state:
+\begin{align}
+    r_\rho^{(n)}(t) &= {\mathrm{corr}}_{(\theta,\phi)}
+    \left(J_\rho^{(n)}(\theta,\phi;t),I_3^{-,(n)}(\theta,\phi;t)\right),\\
+    r_{\rm tot}^{(n)}(t) &= {\mathrm{corr}}_{(\theta,\phi)}
+    \left(J_{\rm tot}(\theta,\phi),I_3^{-,(n)}(\theta,\phi;t)\right),\\
+    I_{3,\max}^{-,(n)}(t) &= \max_{(\theta,\phi)}I_3^{-,(n)}(\theta,\phi;t).
+\end{align}
+The ensemble summaries report medians and interquartile ranges of these quantities across the $50$ initial states.
+
+\begin{figure}[h]
+ \includegraphics[width=1.0\textwidth]{FigSx_ensemble_refined.png}
+ \caption{Random-product ensemble scan in the 4-qubit triangle. The panels show the ensemble-level behavior of the within-state diagnostic correlations and the maximum generated $I_3^-$ across $50$ random product starts.}
+ \label{fig:random_product_ensemble}
+\end{figure}
+
+The ensemble scan shows that state activation has an effective domain: some product states enter the early activation window much more strongly than others. At early times, states that generate larger $I_{3,\max}^-$ also tend to show a higher within-state quality of the $J_\rho$ diagnostic. Thus $J_\rho$ should be interpreted as a state-conditioned readout of the associator sector, not as a universal scalar predictor that works equally well for every initial state.
+
+The same ensemble confirms the late-time stability of the bare capacity diagnostic. While $J_\rho$ is more sensitive to initial-state alignment at early times, $J_{\rm tot}$ becomes more stable across the random-product ensemble at later times. This supports the two-layer
+picture: early behavior is access-sensitive, whereas later behavior increasingly reveals the state-independent associator capacity encoded in the Hamiltonian.
+
+\begin{comment}
+\subsection{State averaging and face averaging}\label{sm:initial-state-averaging}
+The random-product ensemble scan also clarifies the relation between the $4$-qubit triangle and the $5$-qubit tetrahedral extension. In the minimal triangle, each scan point contains one internal face and one initial-state realization, so the measured relation between $J_\rho, J_{\mathrm{tot}}$, and $I_3^-$ can be strongly affected by state-specific alignment with the associator sector. Averaging over many random product starts suppresses these state-specific fluctuations and makes the Hamiltonian-level capacity $J_{\mathrm{tot}}$ more stable.
+
+An analogous averaging occurs geometrically in the tetrahedral network. After tracing out the external node $E$, the reduced tetrahedron contains four triangular faces $ABC, ABD, ACD, BCD$. For each face $f$, we compute
+\begin{equation}
+    I_3^-(f),\quad J_\rho(f),\quad J_{\rm tot}(f),
+\end{equation}
+and summarize the tetrahedral response by face averages, for example
+\begin{equation}
+    \overline{I_3^-}^{\,{\mathrm{face}}} = \frac{1}{4}\sum_f I_3^-(f),
+\end{equation}
+with analogous definitions for $J_\rho$ and $J_{\mathrm{tot}}$.
+
+The two averaging procedures are not identical, but they implement the same statistical principle. The $4$-qubit ensemble averages over multiple initial-state realizations for a single triangular channel, whereas the tetrahedral scan averages over multiple triangular faces within one Hamiltonian realization. In both cases, averaging over multiple effective channels suppresses fluctuations that are strong in a single triangle.
+
+This supports the interpretation that the earlier visibility of $J_{\mathrm{tot}}$ in the $5$-qubit tetrahedron is not a separate mechanism, but a finite-size fluctuation-suppression effect. $J_\rho$ remains the state-conditioned readout of associator activation, while $J_{\mathrm{tot}}$ becomes more reliable when fluctuations from individual states or individual faces are averaged out.
+\end{comment}
+
+\section{Transverse-field Ising model validation}\label{sm:tfising}
+\subsection{Analytic associator and pure-Ising null}\label{sm:tfising-analytic-null}
+We first consider a transverse-field Ising (TF-Ising) realization of the
+triangle network. For each internal edge, we write
+\begin{equation}
+    H_{ij}^{\mathrm{TF}} = J_{ij}Z_iZ_j + \frac{h}{2}(X_i+X_j),
+\end{equation}
+so that the sum over the three triangle edges gives
+\begin{equation}
+    H_{\triangle}^{\mathrm{TF}} = J_{AB}Z_AZ_B+J_{BC}Z_BZ_C+J_{AC}Z_AZ_C+h(X_A+X_B+X_C).
+\end{equation}
+The factor $1/2$ in the edge-resolved expression avoids double-counting the transverse field, since each triangle node appears in two internal edges.
+
+Using the mediator-resolved associators defined in Sec.~\ref{sm:algebra}, direct Pauli algebra gives
+\begin{equation}
+    J_{\mathrm{tot}}^2=h^4\sum_{(ij)\in\{AB,BC,AC\}}J_{ij}^2 .
+\end{equation}
+Under the fixed-norm parametrization $J_{AB}^2+J_{BC}^2+J_{AC}^2=R^2$, this reduces to
+\begin{equation}
+    J_{\rm tot}=h^2R .
+\end{equation}
+Thus the TF-Ising associator is activated by the transverse field and vanishes in the pure Ising limit $h\to 0$.
+
+The pure Ising limit provides a textbook associator-null control. At $h=0$,
+\begin{equation}
+    H_{\triangle}^{\mathrm{Ising}}=J_{AB}Z_AZ_B+J_{BC}Z_BZ_C+J_{AC}Z_AZ_C,
+\end{equation}
+so all internal edge Hamiltonians commute pairwise. Hence $J_{\rm tot}=0$, and the Cauchy--Schwarz bound in Sec.~\ref{sm:algebra-cs-bound} gives $J_\rho=0$ for every reduced
+triangle state.
+
+Numerically, the pure Ising scan confirms this null prediction. Across the full edge-geometry grid and sampled evolution times, the tripartite synergy indicator remains at the numerical floor $I_3^-\simeq 0$, while lower-order pairwise observables can remain nonzero. Thus the
+absence of $I_3^-$ is not caused by removing pairwise interactions; it follows from eliminating the non-associative channel. This verifies in the TF-Ising setting the same null structure tested by the associator-null interpolation in the XYZ family.
+
+\subsection{Edge-geometry dependence}\label{sm:tfising-geometry}
+We next test how the distribution of fixed Ising strength over the three triangle edges affects the conversion of an activated associator channel into the tripartite synergy indicator. The edge magnitudes are parametrized as
+\begin{equation}
+    K_{AB}=R\sin\theta\cos\phi,\quad K_{BC}=R\sin\theta\sin\phi,\quad K_{AC}=R\cos\theta,
+\end{equation}
+so that
+\begin{equation}
+    K_{AB}^2+K_{BC}^2+K_{AC}^2=R^2.
+\end{equation}
+At fixed transverse field $h$, every point in the $(\theta,\phi)$ scan therefore has the same bare associator capacity $J_{\mathrm{tot}}=h^2R$. The scan is thus a direct test of edge-geometry effects at fixed non-associative capacity. The representative trajectories and geometry landscape shown below use the near-competition ferromagnetic regime
+\begin{equation}
+    \lambda=1.00,\quad J_{AB},J_{BC},J_{AC}<0.
+\end{equation}
+
+Figure~\ref{fig:tfising-trajectories} compares representative trajectories for three edge-strength geometries. In near-complete triangles, $J_\rho$ opens early and $I_3^-$ grows later, consistent with the activation picture. By contrast, isolated-dimer and open-wedge geometries can still show appreciable $J_\rho$ while producing only weak $I_3^-$. Thus a large state-activated associator readout is not by itself sufficient to generate a large entropy-level tripartite signal.
+
+To summarize this effect across the full geometry scan, we compute the time-integrated quantities
+\begin{equation}
+    A_{I_3}(\theta,\phi)=\int I_3^-(t;\theta,\phi)\,dt, \quad
+    A_{J_\rho}(\theta,\phi)=\int J_\rho(t;\theta,\phi)\,dt.
+\end{equation}
+As shown in Fig.~\ref{fig:tfising-geometry}, high $A_{J_\rho}$ does not automatically imply high $A_{I_3}$. The geometry dependence is partly organized by the normalized edge weights
+\begin{equation}
+    w_{ij}=\frac{K_{ij}^2}{K_{AB}^2+K_{BC}^2+K_{AC}^2},
+\end{equation}
+and by the triangle-closure factor
+\begin{equation}
+    C_\triangle=27\,w_{AB}w_{BC}w_{AC}.
+\end{equation}
+This factor vanishes when any edge is absent and equals one for a perfectly balanced triangle. Although it is not a complete predictor of $I_3^-$, it captures the geometric penalty associated with nearly broken triangular support.
+
+\begin{figure}[h]
+ \includegraphics[width=1.0\textwidth]{FigS3_TF-Ising_trajectory.png}
+ \caption{Representative TF-Ising trajectories for three edge-strength geometries at fixed bare associator capacity.}
+ \label{fig:tfising-trajectories}
+\end{figure}
+\begin{figure}[h]
+ \includegraphics[width=1.0\textwidth]{FigS4_I3_Geometry_dependence.png}
+ \caption{Geometry dependence of the integrated tripartite synergy signal in the TF-Ising triangle.}
+ \label{fig:tfising-geometry}
+\end{figure}
+
+These results show that non-associative capacity $J_{\mathrm{tot}}>0$ and state activation $J_\rho>0$ are individually necessary but jointly insufficient: the tripartite synergy indicator additionally requires effective triangular closure, i.e., all three edges must carry
+substantial coupling weight. This geometric constraint is generically satisfied in the XYZ family used in the main text, but becomes explicit in the TF-Ising family, where the spherical parametrization allows individual edges to approach zero.
+
+\subsection{Field-interaction scan}\label{sm:tfising-lambda}
+We next scan the transverse-field strength relative to the RMS Ising
+coupling,
+\begin{equation}
+    \lambda=\frac{h}{\bar J}.
+\end{equation}
+For each $\lambda$, the same fixed-norm edge-geometry grid is scanned over time for both uniform sign choices,
+\begin{equation}
+    J_{AB},J_{BC},J_{AC}<0 \quad {\mathrm{(FM-like)}}, \qquad
+    J_{AB},J_{BC},J_{AC}>0 \quad {\mathrm{(AFM-like)}}.
+\end{equation}
+The refined scan uses $\lambda\in[0,3],\Delta\lambda=0.05$, with $28$ time points in $t\in[0.02,3.00]$.
+
+We summarize the finite-time response using
+\begin{align}
+    M_{\max}(\lambda) &= \max_{t,\theta,\phi} I_3^-(t;\theta,\phi),\\
+    M_{\rm mean}(\lambda) &= \max_t \left\langle I_3^-(t;\theta,\phi) \right\rangle_{\theta,\phi},\\
+    A_{\rm mean}(\lambda) &= \int \left\langle I_3^-(t;\theta,\phi) \right\rangle_{\theta,\phi}\,dt.
+\end{align}
+Here $\langle\cdot\rangle_{\theta,\phi}$ denotes the average over the edge-geometry grid.
+
+\begin{figure}[h]
+ \includegraphics[width=1.0\textwidth]{FigS5_Lambda_scan.png}
+ \caption{Field-interaction scan in the TF-Ising triangle. The panels show the optimal peak \(M_{\max}\), the geometry-averaged peak \(M_{\mathrm{mean}}\), and the time-integrated mean production \(A_{\mathrm{mean}}\) as functions of \(\lambda=h/\bar J\) for FM-like and AFM-like sign choices.}
+ \label{fig:tfising-lambda}
+\end{figure}
+
+Figure~\ref{fig:tfising-lambda} shows a nonmonotonic response. In the interaction-dominated limit $\lambda\ll1$, the transverse field is too weak to activate the non-associative channel efficiently. In the field-dominated limit $\lambda\gg1$, local rotations dominate and the activated channel is not efficiently converted into a tripartite synergy signal. The strongest response therefore occurs in an intermediate field--interaction competition window.
+
+The precise optimum depends on the finite-window summary. The peak statistics $M_{\max}$ and $M_{\mathrm{mean}}$ are maximized on the interaction-dominated side of the competition window, while the integrated response $A_{\mathrm{mean}}$ is enhanced over a broader intermediate range. We therefore interpret the scan as evidence for a finite-size competition window, not as a sharp critical-point maximum. The robust conclusion is that $I_3^-$ generation is suppressed in both extreme limits and is enhanced when transverse-field and Ising scales compete.
+
+\subsection{Frustration and the Edwards--Anderson sign ensemble}\label{sm:tfising-frustration}
+We finally test whether sign frustration enhances or suppresses tripartite-synergy generation at fixed coupling magnitudes. For each edge-geometry point $(\theta,\phi)$ and field strength $\lambda$, we enumerate all eight sign patterns
+\begin{equation}
+    (s_{AB},s_{BC},s_{AC})\in\{-1,+1\}^3, \quad J_{ij}=s_{ij}K_{ij}.
+\end{equation}
+In our convention, $J_{ij}<0$ is ferromagnetic-like and $J_{ij}>0$ is antiferromagnetic-like. The frustration classification is
+\begin{equation}
+    {\rm sign}(J_{AB}J_{BC}J_{AC})
+    \begin{cases}
+        >0, & \text{frustrated},\\
+        <0, & \text{non-frustrated}.
+    \end{cases}
+\end{equation}
+
+The scan uses an interior $16\times16$ geometry grid to avoid vanishing edges, six representative field strengths
+\begin{equation}
+    \lambda\in\{0.50,0.75,1.00,1.25,1.50,2.00\},
+\end{equation}
+and ten evolution times in $t\in[0.05,2.00]$. For each fixed $(\lambda,\theta,\phi)$, all eight sign patterns share the same edge magnitudes and therefore the same bare capacity,
+\begin{equation}
+    J_{\mathrm{tot}}^2 = h^4\sum_{(ij)}J_{ij}^2.
+\end{equation}
+The scan therefore isolates the effect of sign structure and frustration from the effect of Hamiltonian-level associator capacity.
+
+\begin{figure}[h]
+ \includegraphics[width=1.0\textwidth]{FigS6_frustration_scan.png}
+ \caption{Edwards--Anderson sign ensemble at fixed edge magnitudes. For each fixed $(\lambda,\theta,\phi)$, all sign patterns have identical $J_{\mathrm{tot}}$. Frustrated configurations produce systematically lower integrated $I_3^-$ than non-frustrated configurations, with only a minority of geometries showing the reverse trend.}
+ \label{fig:tfising-frustration}
+\end{figure}
+
+Across the scanned $\lambda$ values and edge geometries, frustrated sign configurations generate less integrated $I_3^-$ than their non-frustrated counterparts, with only $10\sim 18\%$ of geometries showing the reverse trend. Since $J_{\mathrm{tot}}$ is identical across
+sign patterns at fixed edge magnitudes, this suppression cannot be attributed to the bare associator capacity. It instead reflects the state-activated layer and subsequent coherent dynamics: frustration reduces the efficiency with which the evolving state accesses the available non-associative sector.
+
+This result should be distinguished from equilibrium studies in which frustration can enhance synergy in classical Ising models \cite{marinazzo2019SynergyWarning}. Here the question is dynamical generation from initially unentangled states, and frustration suppresses the conversion of fixed algebraic capacity into the observed tripartite-information signal.
+
+\subsection{Graph additivity of the TF-Ising bare capacity}\label{sm:tfising-graph-additivity}
+The analytic TF-Ising associator gives a simple graph-level decomposition of the bare capacity. Let $G=(V,E)$ be a simple graph with qubits on vertices, and let $\mathcal{T}(G)$ denote the set of triangular faces. For a face $f=\{a,b,c\}\in\mathcal{T}(G)$, we define
+the face-local probe Hamiltonians on the three-qubit Hilbert space of that face, for example
+\begin{equation}
+    \tilde{H}^{(f)}_{ab} = J_{ab}Z_aZ_b+\frac{h}{2}(X_a+X_b),
+\end{equation}
+with analogous definitions for $\tilde H^{(f)}_{bc}$ and $\tilde H^{(f)}_{ac}$. The corresponding mediator associators are constructed from these three face-local edge Hamiltonians as in Sec.~\ref{sm:algebra}. Under this convention, the associator assigned to a face depends only on the three edge terms inside that face, not on how the face is embedded in the rest of the graph.
+
+Using the single-triangle TF-Ising result, every face satisfies
+\begin{equation}
+    J_{\mathrm{tot}}^2(f) = h^4\sum_{(ij)\in f}J_{ij}^2 .
+\end{equation}
+Thus the per-face TF-Ising bare capacity is independent of all other edges and vertices of $G$. Defining the graph-summed capacity by
+\begin{equation}
+    \Sigma J_{\mathrm{tot}}^2(G) = \sum_{f\in\mathcal{T}(G)}J_{\mathrm{tot}}^2(f),
+\end{equation}
+and the triangle multiplicity of edge $(ij)$ by
+\begin{equation}
+    m_{ij}(G) = \lvert\{f\in\mathcal T(G):(ij)\subset{f}\}\rvert,
+\end{equation}
+we obtain the graph-summed identity
+\begin{equation}
+    \Sigma J_{\mathrm{tot}}^2(G) = h^4\sum_{(ij)\in E}m_{ij}(G)J_{ij}^2 .
+\end{equation}
+The graph dependence therefore enters only through the triangle multiplicity $m_{ij}(G)$.
+
+For the tetrahedral core $K_4$ used in the $5$-qubit extension, each of the six internal edges belongs to two triangular faces. With equal edge magnitude $J_{ij}=R$,
+\begin{equation}
+    \Sigma J_{\mathrm{tot}}^2(K_4) = 12h^4R^2, \quad
+    \left\langle J_{\mathrm{tot}}^2\right\rangle_{\mathrm{face}} = 3h^4R^2 .
+\end{equation}
+For $R=\sqrt3$ and $h=1$, this gives $\langle J_{\mathrm{tot}}^2\rangle_{\mathrm{face}}=9$, in agreement with the numerical verification.
+
+The same identity gives an analytic scaling law for triangle-decorated graph families. For a triangular ladder $G_N$ with $N$ triangular faces and uniform coupling $J_{ij}=J$,
+\begin{equation}
+    \sum_{(ij)\in E}m_{ij}(G_N)=3N,
+\end{equation}
+and hence
+\begin{equation}
+    \Sigma J_{\mathrm{tot}}^2(G_N) = 3h^4J^2N, \quad
+    \sqrt{\Sigma J_{\mathrm{tot}}^2(G_N)}=\sqrt3\,h^2J\,\sqrt{N},
+\end{equation}
+while the face mean remains intensive,
+\begin{equation}
+    \left\langle J_{\mathrm{tot}}^2\right\rangle_{\mathrm{face}}
+    =\frac{\Sigma J_{\mathrm{tot}}^2(G_N)}{|\mathcal{T}(G_N)|} = 3h^4J^2 .
+\end{equation}
+More generally, for bounded-degree triangle-decorated graph families with $\lvert\mathcal T(G_N)\rvert\propto N$ and bounded $m_{ij}(G_N)$, the graph-summed bare capacity is extensive in the number of faces, whereas the face-mean capacity is $N$-independent. The relative fluctuation of a face-summed capacity is therefore expected to scale as
+\begin{equation}
+    \frac{\sigma}{\mu}\sim\frac{1}{\sqrt{N}}.
+\end{equation}
+
+This graph-additive structure provides the analytic basis for the face-averaging interpretation used in the main text. In the TF-Ising specialization, $J_{\mathrm{tot}}^2$ is a face-local and additive structural capacity. What remains dynamical is whether $J_\rho$, and
+ultimately $I_3^-$, concentrate around the same structural prediction as the number of faces increases. The additivity result therefore supports the bare-capacity layer of the two-layer framework, while larger-$N$ scans are needed to test whether the predictive relation
+between face-mean $J_{\mathrm{tot}}$ and face-mean $I_3^-$ also stabilizes.
+
+The identities above were checked numerically by explicit Pauli-matrix construction of the face-local Hamiltonians. The per-face formula, triangular-ladder identity for $N=1,\ldots,8$, and $K_4$ tetrahedral case were all reproduced to machine precision. These checks verify the implementation; the identities themselves follow from the face-local definition and the single-triangle TF-Ising associator formula.
+
+\section{Open-system robustness of higher-order information}\label{sm:open-system}
+This section reports the open-system robustness tests supporting the main-text claim. The Lindblad channels, collapse operators, preparation time, noise duration, and noise rate are specified in Sec.~\ref{sm:numerics-evolution-null}. Here we compare the tripartite synergy indicator with dyadic mutual-information and negativity baselines after coherent preparation followed by noisy evolution. The goal is not to show absolute protection from decoherence, but to test whether the higher-order signal retains a larger relative share of the remaining correlation structure than the dyadic baselines.
+
+\subsection{Robustness across triangle and tetrahedral networks}\label{sm:open-system-geometries}
+We test the open-system response in both the $4$-qubit triangle and the $5$-qubit tetrahedral network. The Lindblad channels, collapse operators, preparation time, noise duration, and noise rate are specified in Sec.~\ref{sm:numerics-evolution-null}. Here we compare the tripartite synergy indicator with dyadic mutual-information and negativity baselines after coherent preparation followed by noisy evolution.
+
+In the $4$-qubit triangle, a pool of $80$ candidate Hamiltonian points is prepared unitarily, and the top $k=12$ families are retained using the joint criterion of a visible $I_3^-$ signal and a nonzero dyadic entanglement baseline at the preparation time. Noise acts on the internal triangle nodes $A,B,C$, while the auxiliary node $D$ is not directly decohered. The higher-order observable is $I_3^-$ evaluated on
+\begin{equation}
+    \rho_{ABC}(t)={\mathrm{Tr}}_D[\rho(t)].
+\end{equation}
+The dyadic baselines are the mean pairwise mutual information and mean pairwise negativity,
+\begin{equation}
+    \bar{I}_2^{\triangle} = \frac{1}{3}[I(A:B)+I(A:C)+I(B:C)],
+    \quad
+    \bar{N}_2^{\triangle} = \frac{1}{3}[\mathcal{N}(A:B)+\mathcal{N}(A:C)+\mathcal{N}(B:C)].
+\end{equation}
+
+In the $5$-qubit tetrahedral network, a pool of $60$ candidate Hamiltonian points is prepared unitarily, and the top $k=10$ families are retained using the same selection criterion applied to the face-averaged tripartite signal and the internal dyadic entanglement baseline. Noise acts on the tetrahedral nodes $A,B,C,D$, while the external node $E$ is not directly decohered. The higher-order observable is the face-averaged tripartite synergy indicator,
+\begin{equation}
+    \overline{I_3^-}^{\,{\mathrm{face}}} = 
+    \frac{1}{4}\sum_{f\in\left\{ABC,ABD,ACD,BCD\right\}}I_3^-(f).
+\end{equation}
+The dyadic baselines are internal-edge means over the six tetrahedral edges,
+\begin{equation}
+    \bar{I}_2^{\mathrm{int}}=\frac{1}{6}\sum_{(ij)\in E_{\mathrm{tet}}} I(i:j), \quad
+    \bar{N}_2^{\mathrm{int}}=\frac{1}{6}\sum_{(ij)\in E_{\mathrm{tet}}} \mathcal{N}(i:j),
+\end{equation}
+where
+\begin{equation}
+    E_{\mathrm{tet}}=\left\{AB,AC,AD,BC,BD,CD\right\}.
+\end{equation}
+Using internal-edge means avoids double-counting edges that appear in multiple triangular faces.
+
+\begin{figure}[h]
+\centering
+\begin{minipage}[t]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{Fig4_4q_open_system_mean_dyadic_background.png}
+    \vspace{0.3em}
+    \small (a) $4$-qubit triangle network
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{Fig6_5q_open_system_maintext.png}
+    \vspace{0.3em}
+    \small (b) $5$-qubit tetrahedral network
+\end{minipage}
+\caption{Open-system robustness in the triangle and tetrahedral networks. (a) In the $4$-qubit triangle, the tripartite synergy indicator $I_3^-$ is compared with mean dyadic mutual-information and negativity baselines under amplitude damping, dephasing, and depolarizing noise. (b) In the $5$-qubit tetrahedral network, the face-averaged tripartite synergy indicator $\overline{I_3^-}^{\,{\rm face}}$ is compared with internal-edge dyadic baselines. In both geometries, the higher-order indicator remains visible after noise onset and retains an increasing relative share compared with the dyadic mutual-information baseline.}
+\label{fig:open_system_compare}
+\end{figure}
+
+Figure~\ref{fig:open_system_compare} shows the same qualitative pattern in both geometries. The pairwise negativity baseline is rapidly suppressed after noise onset, as expected for an entanglement-sensitive dyadic observable. The pairwise mutual-information baseline is more persistent because it includes both classical and quantum correlations, but it does not track the higher-order indicator as a fixed proportion. Instead, the relative ratios
+\begin{equation}
+    \frac{I_3^-}{\bar{I}_2^{\triangle}}, \quad
+    \frac{\overline{I_3^-}^{{\mathrm{face}}}}{\bar{I}_2^{\mathrm{int}}}
+\end{equation}
+increase during noisy evolution for the tested channels.
+
+We therefore interpret the open-system result as relative structural persistence, not as absolute protection from decoherence. The higher-order signal can decay in magnitude, but it retains a larger share of the remaining reduced-state correlation structure than the dyadic baselines. The same trend appears under two different normalizations: one tripartite face versus three edges in the triangle, and four tripartite faces versus six internal edges in the tetrahedron. Thus the robustness effect is not an artifact of the minimal triangle geometry.
+
+\subsection{Environment-edge control in the tetrahedral network}\label{sm:open-system-environment-edge}
+
+To check whether the tetrahedral higher-order response can be reduced to correlations on the external coupling edge, we monitor observables on the edge $DE$. These quantities are computed from the full $5$-qubit state before tracing out the external node:
+\begin{equation}
+    \rho_{DE}(t) = {\mathrm{Tr}}_{ABC}[\rho(t)] .
+\end{equation}
+We evaluate the environment-edge mutual information and negativity,
+\begin{equation}
+    I_{DE}(t)=S_D(t)+S_E(t)-S_{DE}(t), \quad N_{DE}(t)=\frac{\|\rho_{DE}^{T_D}(t)\|_1-1}{2}.
+\end{equation}
+These observables are not part of the internal tetrahedral average. They are used only to diagnose how strongly the external node becomes correlated or entangled with the tetrahedron through the edge $DE$.
+
+\begin{figure}[h]
+ \includegraphics[width=0.7\textwidth]{FigS2_5q_open_system_environment_edge.png}
+ \caption{Environment-edge observables in the 5-qubit open-system test. The mutual information $I_{DE}$ and negativity $N_{DE}$ monitor correlations and entanglement on the external coupling edge. Their trajectories do not simply reproduce the internal face-averaged tripartite synergy response.}
+ \label{fig:open_system_environment_edge}
+\end{figure}
+
+During the unitary preparation stage, $I_{DE}$ and $N_{DE}$ quantify how much correlation and entanglement are carried by the external edge before decoherence is applied. In the open-system stage, noise acts on the internal tetrahedral nodes $A,B,C,D$, but not directly on $E$.
+The edge $DE$ therefore provides a monitor of how external-edge correlations respond indirectly to internal decoherence.
+
+Figure~\ref{fig:open_system_environment_edge} shows that the environment-edge observables do not simply mirror the internal face-averaged tripartite synergy indicator. In particular, the internal higher-order signal can remain visible even when $N_{DE}$ is small or decaying. Thus the tetrahedral robustness result cannot be reduced to a monotonic buildup of edge-local entanglement on $DE$.
+
+The external edge acts as a coupling channel that reshapes the reduced tetrahedral dynamics, but the observed higher-order response remains an internal face-level property. This supports the same conclusion as the $g_E$-scan: external coupling redistributes state activation across tetrahedral faces, but it does not replace the internal associator-based mechanism.
+
+\section{$5$-qubit tetrahedral extension}\label{sm:tetrahedron}
+This section collects the closed-system supplementary results specific to the $5$-qubit tetrahedral extension. The Hamiltonian construction, initial state, scan grid, and external-coupling convention are specified in Sec.~\ref{sm:numerics}. Here we focus on the time-resolved
+face-averaged associator diagnostics and the environment-coupling scan that support the tetrahedral claims in the main text.
+
+\subsection{Time-resolved face-averaged diagnostics}\label{sm:tetrahedron-time-resolved}
+The $5$-qubit time-resolved experiment follows the same scanning protocol as the $4$-qubit triangle, but observables are evaluated on the four triangular faces of the reduced tetrahedral state. After unitary evolution under the full $5$-qubit Hamiltonian, the external
+node $E$ is traced out:
+\begin{equation}
+    \rho_{ABCD}(t)={\mathrm{Tr}}_{E}[\rho(t)] .
+\end{equation}
+For each face
+\begin{equation}
+    f\in\left\{ABC,ABD,ACD,BCD\right\},
+\end{equation}
+we compute the face-level quantities
+\begin{equation}
+    I_3^-(f),\quad J_\rho(f),\quad J_{\rm tot}(f).
+\end{equation}
+The tetrahedral observables reported in the time-resolved scan are face averages, for example
+\begin{equation}
+    \overline{I_3^-}^{\,{\mathrm{face}}}(t)=\frac{1}{4}\sum_f I_3^-(f;t),
+\end{equation}
+with analogous definitions for $\overline{J_\rho}^{\mathrm{face}}$ and $\overline{J_{\mathrm{tot}}}^{\mathrm{face}}$.
+
+At each sampled time, the full $12\times12(\theta,\phi)$ grid is rescanned. We compute the grid-level correlations
+\begin{align}
+    r_\rho^{(5Q)}(t) &= {\mathrm{corr}}_{(\theta,\phi)}
+    \left(\overline{J_\rho}^{\,{\mathrm{face}}}(\theta,\phi;t),\overline{I_3^-}^{\mathrm{face}}(\theta,\phi;t)\right),\\
+    r_{\rm tot}^{(5Q)}(t) &= {\mathrm{corr}}_{(\theta,\phi)}
+    \left(\overline{J_{\rm tot}}^{\mathrm{face}}(\theta,\phi),\overline{I_3^-}^\mathrm{face}(\theta,\phi;t)\right).
+\end{align}
+
+\begin{figure}[h]
+ \includegraphics[width=1.0\textwidth]{Fig7_tetrahedral_5q_time_resolved_associator_diagnostics.png}
+ \caption{Time-resolved face-averaged associator diagnostics in the $5$-qubit tetrahedral network. The bare capacity \(J_{\rm tot}\) is already informative at early times, while $J_\rho$ develops a pronounced state-activation peak.}
+ \label{fig:tetrahedron_time_resolved}
+\end{figure}
+
+The main qualitative difference from the minimal triangle is that the tetrahedral network does not show a clean state-activated-to-capacity crossover. Instead, $J_{\mathrm{tot}}$ is already positively correlated with the face-averaged tripartite synergy indicator at early times,
+whereas $J_\rho$ develops an activation peak around $t\simeq 0.41$. Thus the two associator levels coexist rather than replacing one another: $J_{\mathrm{tot}}$ provides an early face-averaged structural signal, while $J_\rho$ identifies the time window in which state-resolved activation is strongest.
+
+This supports the main-text interpretation that the $5$-qubit result is a finite-size extension of the same capacity--activation structure, not a separate mechanism. Face averaging over multiple triangular channels suppresses single-face fluctuations and makes the bare capacity visible earlier than in the minimal triangle.
+
+\subsection{Environment-coupling scan and topological differentiation}\label{sm:tetrahedron-ge-scan}
+We next examine how the tetrahedral higher-order response changes as the coupling to the external node is varied. We fix a representative high-signal Hamiltonian point,
+\begin{equation}
+    \theta^\ast=0.501126,\quad \phi^\ast=0.856798,\quad t^\ast=0.20,
+\end{equation}
+and vary the external-edge strength as
+\begin{equation}
+    \lVert\mathbf{J}_{DE}\rVert=g_E R, \quad
+    g_E\in\left\{0.05,0.10,0.20,0.30,0.50,0.80,1.00,1.50,2.00\right\}.
+\end{equation}
+For each $g_E$, the full $5$-qubit state is evolved unitarily, the external node $E$ is traced out, and the four triangular faces of the reduced tetrahedron are evaluated separately.
+
+Because $E$ couples through node $D$, the face $ABC$ is distal to the environment edge, whereas $ABD, ACD$, and $BCD$ are adjacent to it. We therefore define
+\begin{equation}
+    I_{3,{\mathrm{distal}}}^- = I_3^-(ABC), \quad
+    I_{3,{\mathrm{adj}}}^- = \frac{1}{3}\left[I_3^-(ABD)+I_3^-(ACD)+I_3^-(BCD)\right],
+\end{equation}
+and the topological gap
+\begin{equation}
+    \Delta_{\mathrm{topo}} = I_{3,{\mathrm{distal}}}^- - I_{3,{\mathrm{adj}}}^- .
+\end{equation}
+A positive $\Delta_{\mathrm{topo}}$ means that the face not containing the environment-coupled node $D$ carries a stronger tripartite synergy indicator than the environment-adjacent faces.
+
+\begin{figure}[h]
+ \includegraphics[width=1.0\textwidth]{Fig5_gE_scan_best_5q_point_revised.png}
+ \caption{Environment-coupling scan in the $5$-qubit tetrahedral network. Varying $g_E$ does not uniformly enhance the tetrahedral response; instead it differentiates the distal face $ABC$ from the three environment-adjacent faces.}
+ \label{fig:tetrahedron_gE_scan}
+\end{figure}
+
+Figure~\ref{fig:tetrahedron_gE_scan} shows that increasing $g_E$ does not produce a monotonic enhancement of the tetrahedral signal. The face-averaged tripartite synergy indicator first increases slightly, peaks near $g_E=0.50$, and then decreases at stronger coupling. The distal face $ABC$ peaks later, near $g_E=0.80$, and remains larger than the adjacent-face mean as $g_E$ increases. Consequently, $\Delta_{\mathrm{topo}}$ grows from nearly zero at weak coupling to a clearly positive value at strong coupling.
+
+This face-level differentiation occurs without changing the internal bare capacity. Along the $g_E$ scan, the mean $J_{\mathrm{tot}}$ of the internal faces remains fixed because the internal tetrahedral Hamiltonian is unchanged. By contrast, the mean state-resolved diagnostic $J_\rho$ decreases as $g_E$ grows. Thus the external edge does not modify the available internal non-associative capacity; it changes how the evolving state accesses the face-resolved associator sectors.
+
+The associated environment-edge observables show a different trend: $I_{DE}$ generally increases with $g_E$, whereas $N_{DE}$ peaks at intermediate coupling and then decreases. Thus stronger edge-local correlation with the external node does not imply a monotonic increase of the internal tripartite synergy indicator. The $g_E$-scan therefore supports a topology-sensitive version of the capacity--activation picture: external coupling redistributes state activation across tetrahedral faces while leaving the internal associator capacity unchanged.
+
+
+
+
+
+
+
+% If you have acknowledgments, this puts in the proper section head.
+%\begin{acknowledgments}
+% put your acknowledgments here.
+%\end{acknowledgments}
+
+% Create the reference section using BibTeX:
+\bibliography{ref.bib}
+
+\end{document}
+%
+% ****** End of file apstemplate.tex ******
+
